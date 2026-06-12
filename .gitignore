@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.svelte-kit/
+.angular/
+.vite/
+
+# Test / deploy artifacts
+coverage/
+playwright-report/
+test-results/
+.turbo/
+.vercel/
+
+# Env and local files
+.env
+.env.*
+*.local
+
+# OS / editor
+.DS_Store
+npm-debug.log*
