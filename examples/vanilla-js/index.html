@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla JS — latency-test</title>
+  </head>
+  <body>
+    <button id="connect-btn">Connect Audio</button>
+
+    <div id="test-ui" hidden>
+      <button id="start-btn">Test Latency</button>
+      <p id="result"></p>
+      <p id="stats"></p>
+    </div>
+
+    <latency-test id="lt" number-of-tests="5"></latency-test>
+
+    <script type="module" src="/src/main.js"></script>
+    <!-- verification harness — not part of docs example -->
+    <script type="module" src="/src/verify.js"></script>
+  </body>
+</html>

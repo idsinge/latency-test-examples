@@ -4,8 +4,6 @@ Host applications for the [`<latency-test>`](https://github.com/idsinge/latency-
 
 Everything in this repository consumes the **published npm package** (or CDN build) — never the component's local source. Two tiers:
 
-> **Status: seed-only.** The `examples/` and `demos/` folders do not exist yet — Tier 1 work starts with vanilla-js. This note is removed when the first example lands.
-
 ## Framework integration examples (`examples/`)
 
 One small app per framework, mirroring the corresponding [docs example page](https://idsinge.github.io/latency-test/examples/vanilla-js) and verifying it end-to-end against the installed published package.
@@ -14,7 +12,7 @@ One small app per framework, mirroring the corresponding [docs example page](htt
 
 | Framework | Folder | Tooling | Package | Docs commit | Environment (browser / OS / audio) | Dev | Prod build | Checks | Result | Date | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Vanilla JS (npm + CDN) | `examples/vanilla-js/` | — | — | — | — | — | — | — | pending | — | — |
+| Vanilla JS (npm + CDN) | `examples/vanilla-js/` | create-vite@9 / Vite 8.x / Node 22.22.3 | `1.2.0` | `8975f31779` | Firefox 151.0.4 aarch64 / macOS 15.4 (24E248) / beyerdynamic DT 770 PRO 80Ω + built-in mic | npm ~44.2 ms r≥23 dB ✓; CDN ~44.2 ms r~29 dB ✓ | npm ~36.9 ms r~29 dB ✓; CDN ~44.2 ms r~29 dB ✓ | ev✓ neg✓ reg✓ con✓ cdn✓ | ✓ | 2026-06-15 | Docs findings: `cdn.html` missing `<title>`, no SRI on CDN script tag, pre-upgrade race in inline script (all in docs snippet — not fixed here) |
 | React | `examples/react/` | — | — | — | — | — | — | — | pending | — | — |
 | Vue | `examples/vue/` | — | — | — | — | — | — | — | pending | — | — |
 | Svelte | `examples/svelte/` | — | — | — | — | — | — | — | pending | — | — |

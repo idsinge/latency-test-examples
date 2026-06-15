@@ -1,0 +1,54 @@
+import '@adasp/latency-test'
+
+const lt = document.getElementById('lt')
+const connectBtn = document.getElementById('connect-btn')
+const testUi = document.getElementById('test-ui')
+const startBtn = document.getElementById('start-btn')
+const result = document.getElementById('result')
+const stats = document.getElementById('stats')
+
+const MIC_CONSTRAINTS = {
+  audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 }
+}
+
+let micStream = null
+let audioCtx = null
+
+connectBtn.addEventListener('click', async () => {
+  connectBtn.disabled = true
+  try {
+    audioCtx = new AudioContext({ latencyHint: 0 })
+    micStream = await navigator.mediaDevices.getUserMedia(MIC_CONSTRAINTS)
+    lt.inputStream = micStream
+    lt.audioContext = audioCtx
+    connectBtn.hidden = true
+    testUi.hidden = false
+  } catch (e) {
+    micStream?.getTracks().forEach(t => t.stop())
+    micStream = null
+    connectBtn.disabled = false
+    result.textContent = `Could not access mic: ${e.message}`
+  }
+})
+
+window.addEventListener('beforeunload', () => {
+  micStream?.getTracks().forEach(t => t.stop())
+  audioCtx?.close()
+})
+
+startBtn.addEventListener('click', () => lt.start())
+
+lt.addEventListener('latency-result', (e) => {
+  const { latency, ratio, reliable } = e.detail
+  result.textContent = `${latency.toFixed(2)} ms — ratio: ${ratio.toFixed(2)} dB${reliable ? '' : ' ⚠️ unreliable'}`
+})
+
+lt.addEventListener('latency-complete', (e) => {
+  const { results, mean, std, min, max } = e.detail
+  if (results.length > 1)
+    stats.textContent = `Mean: ${mean.toFixed(2)} ms | SD: ${std.toFixed(2)} | Min: ${min.toFixed(2)} | Max: ${max.toFixed(2)}`
+})
+
+lt.addEventListener('latency-error', (e) => {
+  result.textContent = `Error: ${e.detail.message}`
+})
