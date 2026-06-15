@@ -6,7 +6,26 @@ Last session: 2026-06-15. Read this together with `CLAUDE.md` to resume.
 
 Tier 1, app 1 of 6 (vanilla-js): **complete, committed, pushed.**
 Tier 1, app 2 of 6 (React): **complete, committed, pushed.**
-Tier 1, app 3 of 6 (Vue): **next — plan below, ready to execute.**
+Tier 1, app 3 of 6 (Vue): **complete, committed, pushed.**
+Tier 1, app 4 of 6 (Svelte): **next — plan below.**
+
+## Structural decisions made this session
+
+### Verification harness separation
+Harness files moved out of `examples/` into `verification/<framework>/`. Each `examples/` app
+is now a pure docs-code mirror. The `verification/` folder has wiring instructions per framework.
+All future apps (Svelte, Angular, Next.js) use this pattern from the start: no Verify component
+in the example app; harness lives in `verification/<framework>/` only.
+
+### Post-Tier-1 polish pass (deferred)
+After all 6 examples are committed: page headers (<h1> with framework name), negative-path UI
+status message, minimal CSS, StackBlitz links per app in README.
+
+### Root index / landing page (deferred)
+After all 6 examples are committed: root index.html linking all apps.
+
+### Full documentation pass (deferred)
+After Tier 2 is complete.
 
 ## Established per-app workflow
 
@@ -25,63 +44,16 @@ For each app, in order:
 12. Claude writes Codex sign-off prompt (user pastes into Codex, no file changes)
 13. Claude commits + pushes after green light
 
-## Vue — approved plan (execute next)
+## Svelte — plan (to be drafted)
 
-### Docs commit
-`208efe9` — "fix AC/stream ordering in examples". No CDN variant.
+Not yet drafted. Next session: read docs/examples/svelte.md, pin commit, draft plan, send to Codex.
 
-### Scaffold commands (user runs from repo root)
-    nvm use 22
-    npm create vite@9 examples/vue -- --template vue
-    cd examples/vue
-    npm install
-    npm install @adasp/latency-test@1.2.0 --save-exact
-
-### Template cleanup
-Delete: src/style.css, src/assets/vue.svg, public/vite.svg (and any other template demo assets).
-Also remove their imports from src/main.js and src/App.vue.
-
-### File layout
-    examples/vue/
-      index.html             unchanged Vite template (update title)
-      src/main.js            import '@adasp/latency-test' + createApp(App).mount('#app')
-      src/LatencyTester.vue  docs "Basic usage" SFC verbatim (no additions)
-      src/App.vue            renders <LatencyTester /> + <Verify /> as siblings
-      src/Verify.vue         verification harness as a Vue SFC
-      vite.config.js         isCustomElement config + base path
-
-### Content notes
-
-src/main.js — remove CSS import from template; add `import '@adasp/latency-test'` before createApp.
-
-src/LatencyTester.vue — docs "Basic usage (Composition API)" SFC block verbatim. No changes.
-
-src/App.vue — renders <LatencyTester /> then <Verify /> as siblings in a template fragment.
-  Clear comment boundary between docs content and harness.
-
-src/Verify.vue — Vue SFC with <script setup>:
-  - onMounted: attach all six event listeners SYNCHRONOUSLY on document.querySelector('latency-test')
-  - customElements.whenDefined fire-and-forget .then() for upgrade check (separate from listener setup)
-  - Same exact cycle pattern verifier as React (recording→processing→result ×N)
-  - Negative-path button with 5s timeout; check e.detail.message includes 'inputStream is required'
-  - onBeforeUnmount: remove all six listeners
-
-vite.config.js — MUST include isCustomElement: (tag) => tag === 'latency-test' in Vue plugin config
-  (docs explicitly requires this to prevent Vue warning about unknown element).
-  Also add base: '/latency-test-examples/vue/'.
-
-### Special considerations
-
-- isCustomElement is required — without it Vue warns and may try to resolve latency-test as a
-  component. This is documented on the docs page itself.
-- number-of-tests="5" is a static string attribute in the template (not :number-of-tests).
-  Vue passes it as a DOM attribute. The component accepts this correctly.
-- ltRef.start() in the docs template — Vue auto-unwraps refs, so this calls ltRef.value.start().
-- No double-mount issue (Vue has no StrictMode equivalent).
-- Verify.vue accesses docs element via document.querySelector — safe, only one on page.
-
-### Pass criteria (no CDN)
-ev✓ neg✓ reg✓ con✓
+Key Svelte considerations to investigate:
+- SSR/build-time risk: Svelte (via SvelteKit or plain Vite) may attempt to resolve custom elements
+  at build time — need to confirm the right compiler option (customElement: true? or just ignore?)
+- Scaffolding: `npm create svelte@latest` (SvelteKit) vs `npm create vite@latest -- --template svelte`
+  — docs page will dictate which one
+- No Verify component in src/ — harness goes to verification/svelte/ only
 
 ## Environment (established — do not re-derive)
 
