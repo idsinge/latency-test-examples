@@ -7,29 +7,19 @@ Last session: 2026-06-15. Read this together with `CLAUDE.md` to resume.
 Tier 1, app 1 of 6 (vanilla-js): **complete, committed, pushed.**
 Tier 1, app 2 of 6 (React): **complete, committed, pushed.**
 Tier 1, app 3 of 6 (Vue): **complete, committed, pushed.**
-Tier 1, app 4 of 6 (Svelte): **next — plan below.**
+Tier 1, app 4 of 6 (Svelte): **complete, committed, pushed.**
+Tier 1, app 5 of 6 (Angular): **in progress — scaffold done, files written, blocked mid-session.**
+Tier 1, app 6 of 6 (Next.js): pending.
 
-## Structural decisions made this session
+## Structural decisions (all sessions)
 
-### Verification harness separation
-Harness files moved out of `examples/` into `verification/<framework>/`. Each `examples/` app
-is now a pure docs-code mirror. The `verification/` folder has wiring instructions per framework.
-All future apps (Svelte, Angular, Next.js) use this pattern from the start: no Verify component
-in the example app; harness lives in `verification/<framework>/` only.
-
-### Post-Tier-1 polish pass (deferred)
-After all 6 examples are committed: page headers (<h1> with framework name), negative-path UI
-status message, minimal CSS, StackBlitz links per app in README.
-
-### Root index / landing page (deferred)
-After all 6 examples are committed: root index.html linking all apps.
-
-### Full documentation pass (deferred)
-After Tier 2 is complete.
+- Verification harness lives in `verification/<framework>/` only — never in `examples/`.
+- Each `examples/` app is a pure docs-code mirror.
+- Future apps follow this pattern from the start.
+- Post-Tier-1 deferred items in memory: UI polish, root index, verify.sh script.
 
 ## Established per-app workflow
 
-For each app, in order:
 1. Read docs page from `/Users/jose/Desktop/rountriplatencytest-webcomponent/docs/examples/<name>.md`
 2. Pin docs commit: `git -C /Users/jose/Desktop/rountriplatencytest-webcomponent log --oneline docs/examples/<name>.md`
 3. Draft plan: scaffold commands, file layout, content notes, special considerations
@@ -44,16 +34,63 @@ For each app, in order:
 12. Claude writes Codex sign-off prompt (user pastes into Codex, no file changes)
 13. Claude commits + pushes after green light
 
-## Svelte — plan (to be drafted)
+## Angular — current state (resume here)
 
-Not yet drafted. Next session: read docs/examples/svelte.md, pin commit, draft plan, send to Codex.
+### Docs commit
+`208efe9`. No CDN variant.
 
-Key Svelte considerations to investigate:
-- SSR/build-time risk: Svelte (via SvelteKit or plain Vite) may attempt to resolve custom elements
-  at build time — need to confirm the right compiler option (customElement: true? or just ignore?)
-- Scaffolding: `npm create svelte@latest` (SvelteKit) vs `npm create vite@latest -- --template svelte`
-  — docs page will dictate which one
-- No Verify component in src/ — harness goes to verification/svelte/ only
+### What is done
+- Scaffold: `npx @angular/cli@latest new angular --minimal --skip-git --routing=false --ssr=false --style=css`
+  produced Angular 22.0.0 (fully zoneless by default — no zone.js).
+- zone.js installed: `npm install zone.js --save` (zone.js 0.16.2 now in package.json).
+- All files written:
+  - `src/index.html` — title updated
+  - `src/main.ts` — `import 'zone.js'` + `import '@adasp/latency-test'` first, then bootstrap
+  - `src/app/app.config.ts` — `provideZoneChangeDetection({ eventCoalescing: true })` added
+  - `src/app/app.ts` — renders `<app-latency-tester></app-latency-tester>`
+  - `src/app/latency-tester.component.ts` — docs component verbatim
+  - `angular.json` — `baseHref: '/latency-test-examples/angular/'` added
+  - `verification/angular/Verify.component.ts` — harness
+  - `verification/angular/README.md` — wiring instructions
+
+### Blocker at end of session
+`npm install @adasp/latency-test@1.2.0 --save-exact` was run from `examples/` instead of
+`examples/angular/` — the package was NEVER installed in the Angular project.
+
+Angular compiler error during `npm start`:
+  "Cannot find module or type declarations for side-effect import of '@adasp/latency-test'"
+  src/main.ts:2:7
+
+This error is caused by the missing package, NOT a TypeScript resolution issue.
+
+### First action next session
+From `examples/angular/`:
+  npm install @adasp/latency-test@1.2.0 --save-exact
+
+Then run `npm start` and verify the browser.
+
+### Key docs findings for Angular (record in README matrix when complete)
+1. Angular 22 is fully zoneless by default — zone.js must be added manually + configured with
+   `provideZoneChangeDetection()` for the docs component (written for zone.js Angular) to work.
+   This is a docs compatibility gap: docs page needs a note for Angular 22+ zoneless scaffolds.
+2. Docs component includes `stop()` method but no button calls it and the API doesn't document
+   `stop()` — verify at runtime whether this causes any error.
+
+### npm audit warning
+`npm install zone.js` reported 3 high severity vulnerabilities in other Angular build dependencies.
+Not blocking — run `npm audit` for details if needed.
+
+### Production build + preview (Angular specific)
+  ng build   (via npm run build)
+  → inspect dist/ to confirm output path before serving
+  → npx serve dist/angular/browser  (expected path, verify after build)
+
+### Verification harness wiring (when dev passes)
+Copy from repo root:
+  cp verification/angular/Verify.component.ts examples/angular/src/app/Verify.component.ts
+
+Then update `src/app/app.ts` to import and render `<app-verify></app-verify>` after
+`<app-latency-tester>`. Wire instructions also in `verification/angular/README.md`.
 
 ## Environment (established — do not re-derive)
 
