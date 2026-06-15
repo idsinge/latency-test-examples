@@ -4,33 +4,22 @@ Last session: 2026-06-15. Read this together with `CLAUDE.md` to resume.
 
 ## Where we are
 
-Tier 1, app 1 of 6 (vanilla-js): **complete and Codex-reviewed. Pending user commit.**
-Tier 1, app 2 of 6: **React — next.**
+Tier 1, app 1 of 6 (vanilla-js): **complete, committed, pushed.**
+Tier 1, app 2 of 6 (React): **complete — Codex review pending, then commit + push.**
+Tier 1, app 3 of 6: **Vue — next after React commit.**
 
 ## vanilla-js — done
 
-Files: `examples/vanilla-js/index.html`, `src/main.js`, `src/verify.js`, `public/cdn.html`, `vite.config.js`.
-Docs commit pinned: `8975f31779`.
-README matrix row filled in. Codex sign-off: green light, no blocking findings.
+Docs commit: `8975f31779`. Committed and pushed.
 
-Accepted non-blocking findings (do not re-raise):
-- Harness sequence check uses set membership, not strict order (repetition pattern makes ordered comparison non-trivial)
-- Harness does not assert ratio > 18 dB (environment-dependent; README records actual values)
-- cdn.html closing tags trail the harness (unavoidable in valid HTML; accepted boundary exception)
+## React — pending Codex review + commit
 
-Docs findings to patch in component repo (log when contributing back):
-- `cdn.html` docs snippet missing `<title>`
-- No SRI on CDN script tag
-- Pre-upgrade race in inline script vs module load order
+Files: `examples/react/index.html`, `src/main.jsx`, `src/LatencyTester.jsx`, `src/App.jsx`, `src/Verify.jsx`, `vite.config.js`.
+Docs commit: `ffe9bbbf`. React 19.2.6. No CDN variant.
+README matrix row filled in. All four passes complete (dev ✓, prod ✓, registry ✓, console clean ✓).
+Note: StrictMode double-mount logs upgrade check twice in dev — expected behaviour, not a finding.
 
-## Next actions for React
-
-1. Fetch docs page: `docs/examples/react.md` in companion repo at `/Users/jose/Desktop/rountriplatencytest-webcomponent`
-2. Pin docs commit SHA for react page
-3. Scaffold: `npm create vite@9 examples/react -- --template react` (or whatever the docs page prescribes)
-4. Follow same loop: mirror docs, write verify harness, dev run, prod build, registry proof, README matrix row, Codex review, commit.
-
-## Environment (established, do not re-derive)
+## Environment (established)
 
 - Node: 22.22.3 (nvm)
 - Browser: Firefox 151.0.4 (aarch64)

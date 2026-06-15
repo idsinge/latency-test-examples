@@ -13,7 +13,7 @@ One small app per framework, mirroring the corresponding [docs example page](htt
 | Framework | Folder | Tooling | Package | Docs commit | Environment (browser / OS / audio) | Dev | Prod build | Checks | Result | Date | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Vanilla JS (npm + CDN) | `examples/vanilla-js/` | create-vite@9 / Vite 8.x / Node 22.22.3 | `1.2.0` | `8975f31779` | Firefox 151.0.4 aarch64 / macOS 15.4 (24E248) / beyerdynamic DT 770 PRO 80Ω + built-in mic | npm ~44.2 ms r≥23 dB ✓; CDN ~44.2 ms r~29 dB ✓ | npm ~36.9 ms r~29 dB ✓; CDN ~44.2 ms r~29 dB ✓ | ev✓ neg✓ reg✓ con✓ cdn✓ | ✓ | 2026-06-15 | Docs findings: `cdn.html` missing `<title>`, no SRI on CDN script tag, pre-upgrade race in inline script (all in docs snippet — not fixed here) |
-| React | `examples/react/` | — | — | — | — | — | — | — | pending | — | — |
+| React | `examples/react/` | create-vite@9 / Vite 8.x / React 19.2.6 / Node 22.22.3 | `1.2.0` | `ffe9bbbf` | Firefox 151.0.4 aarch64 / macOS 15.4 (24E248) / beyerdynamic DT 770 PRO 80Ω + built-in mic | ~36.9 ms r~29 dB ✓ | ~44.2 ms r~29 dB ✓ | ev✓ neg✓ reg✓ con✓ | ✓ | 2026-06-15 | StrictMode double-mount logs upgrade check twice in dev — expected, not a finding |
 | Vue | `examples/vue/` | — | — | — | — | — | — | — | pending | — | — |
 | Svelte | `examples/svelte/` | — | — | — | — | — | — | — | pending | — | — |
 | Angular | `examples/angular/` | — | — | — | — | — | — | — | pending | — | — |
