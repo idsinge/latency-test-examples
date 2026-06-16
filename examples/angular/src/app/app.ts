@@ -5,6 +5,6 @@ import { LatencyTesterComponent } from './latency-tester.component';
   selector: 'app-root',
   standalone: true,
   imports: [LatencyTesterComponent],
-  template: `<app-latency-tester></app-latency-tester>`
+  template: `<h1>Angular</h1><app-latency-tester></app-latency-tester>`
 })
 export class App {}
