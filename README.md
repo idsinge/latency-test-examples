@@ -10,15 +10,15 @@ One small app per framework, mirroring the corresponding [docs example page](htt
 
 ### Live demos
 
-| Framework | Live demo | StackBlitz |
-|---|---|---|
-| Vanilla JS (npm) | [live](https://idsinge.github.io/latency-test-examples/vanilla-js/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/vanilla-js) |
-| Vanilla JS (CDN) | [live](https://idsinge.github.io/latency-test-examples/vanilla-js/cdn.html) | — |
-| React | [live](https://idsinge.github.io/latency-test-examples/react/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/react) |
-| Vue | [live](https://idsinge.github.io/latency-test-examples/vue/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/vue) |
-| Svelte | [live](https://idsinge.github.io/latency-test-examples/svelte/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/svelte) |
-| Angular | [live](https://idsinge.github.io/latency-test-examples/angular/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/angular) |
-| Next.js | [live](https://idsinge.github.io/latency-test-examples/nextjs/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/nextjs) |
+| | Framework | Live demo | StackBlitz |
+|---|---|---|---|
+| <img src="assets/logos/javascript.svg" width="18" alt="JavaScript"> | Vanilla JS (npm) | [live](https://idsinge.github.io/latency-test-examples/vanilla-js/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/vanilla-js) |
+| <img src="assets/logos/javascript.svg" width="18" alt="JavaScript"> | Vanilla JS (CDN) | [live](https://idsinge.github.io/latency-test-examples/vanilla-js/cdn.html) | — |
+| <img src="assets/logos/react.svg" width="18" alt="React"> | React | [live](https://idsinge.github.io/latency-test-examples/react/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/react) |
+| <img src="assets/logos/vue.svg" width="18" alt="Vue"> | Vue | [live](https://idsinge.github.io/latency-test-examples/vue/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/vue) |
+| <img src="assets/logos/svelte.svg" width="18" alt="Svelte"> | Svelte | [live](https://idsinge.github.io/latency-test-examples/svelte/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/svelte) |
+| <img src="assets/logos/angular.svg" width="18" alt="Angular"> | Angular | [live](https://idsinge.github.io/latency-test-examples/angular/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/angular) |
+| <img src="assets/logos/nextjs.svg" width="18" alt="Next.js"> | Next.js | [live](https://idsinge.github.io/latency-test-examples/nextjs/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/nextjs) |
 
 > StackBlitz works fully in Firefox (mic permission included). Chrome fails due to a WebContainer native-bindings incompatibility: Vite/Rolldown (Vanilla JS, React, Vue, Svelte) and Turbopack (Next.js) both require native bindings unavailable in WebContainers — unrelated to this project.
 
@@ -81,3 +81,11 @@ Reference implementation: the [Hi-Audio fork of waveform-playlist](https://githu
 ## Running locally
 
 Each app is self-contained: `cd` into its folder and follow its own README. Bootstrap a fresh scaffold with `npm install`; verification runs use `npm ci` once the lockfile exists (this is what the registry-consumption check requires). All apps require a microphone and run on localhost or HTTPS.
+
+## About
+
+This repository is a companion to the [`<latency-test>` Web Component](https://github.com/idsinge/latency-test) — it hosts example applications only. The component source, API documentation, research background, full citation, and acknowledgments are in the component repository.
+
+This project is developed as part of *Hybrid and Interpretable Deep Neural Audio Machines*, funded by the **European Research Council (ERC)** under the European Union's Horizon Europe research and innovation programme (grant agreement No. 101052978).
+
+<a href="https://hiaudio.fr"><img src="assets/logos/hi-audio.svg" alt="Hi-Audio" height="32"></a>
