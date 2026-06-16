@@ -1,6 +1,6 @@
 # Session state — resume point
 
-Last session: 2026-06-15. Read this together with `CLAUDE.md` to resume.
+Last session: 2026-06-16. Read this together with `CLAUDE.md` to resume.
 
 ## Where we are
 
@@ -8,7 +8,7 @@ Tier 1, app 1 of 6 (vanilla-js): **complete, committed, pushed.**
 Tier 1, app 2 of 6 (React): **complete, committed, pushed.**
 Tier 1, app 3 of 6 (Vue): **complete, committed, pushed.**
 Tier 1, app 4 of 6 (Svelte): **complete, committed, pushed.**
-Tier 1, app 5 of 6 (Angular): **in progress — scaffold done, files written, blocked mid-session.**
+Tier 1, app 5 of 6 (Angular): **complete, committed, pushed.**
 Tier 1, app 6 of 6 (Next.js): pending.
 
 ## Structural decisions (all sessions)
@@ -16,7 +16,7 @@ Tier 1, app 6 of 6 (Next.js): pending.
 - Verification harness lives in `verification/<framework>/` only — never in `examples/`.
 - Each `examples/` app is a pure docs-code mirror.
 - Future apps follow this pattern from the start.
-- Post-Tier-1 deferred items in memory: UI polish, root index, verify.sh script.
+- Post-Tier-1 deferred items in memory: UI polish, root index, verify.sh script, per-app READMEs for vanilla-js/react/vue/svelte.
 
 ## Established per-app workflow
 
@@ -34,63 +34,52 @@ Tier 1, app 6 of 6 (Next.js): pending.
 12. Claude writes Codex sign-off prompt (user pastes into Codex, no file changes)
 13. Claude commits + pushes after green light
 
-## Angular — current state (resume here)
+## Angular — complete
 
 ### Docs commit
 `208efe9`. No CDN variant.
 
-### What is done
+### What was done
 - Scaffold: `npx @angular/cli@latest new angular --minimal --skip-git --routing=false --ssr=false --style=css`
-  produced Angular 22.0.0 (fully zoneless by default — no zone.js).
-- zone.js installed: `npm install zone.js --save` (zone.js 0.16.2 now in package.json).
-- All files written:
-  - `src/index.html` — title updated
-  - `src/main.ts` — `import 'zone.js'` + `import '@adasp/latency-test'` first, then bootstrap
-  - `src/app/app.config.ts` — `provideZoneChangeDetection({ eventCoalescing: true })` added
-  - `src/app/app.ts` — renders `<app-latency-tester></app-latency-tester>`
-  - `src/app/latency-tester.component.ts` — docs component verbatim
-  - `angular.json` — `baseHref: '/latency-test-examples/angular/'` added
-  - `verification/angular/Verify.component.ts` — harness
-  - `verification/angular/README.md` — wiring instructions
+  produced Angular 22.0.1 (fully zoneless by default — no zone.js).
+- zone.js 0.16.2 installed: `npm install zone.js --save`.
+- `@adasp/latency-test@1.2.0` installed: `npm install @adasp/latency-test@1.2.0 --save-exact`.
+- All files written and bug-fixed; all browser checks passed; prod build verified.
+- Dev result: 36.92 ms, 29.01 dB (reliable). Prod result: 36.92 ms, 25.94 dB (reliable).
+- Registry check: `npm ci` clean, `npm ls` = 1.2.0, no file:/link: refs.
+- `examples/angular/README.md` replaced scaffold boilerplate with project-specific content.
+- Findings recorded in root README matrix row.
 
-### Blocker at end of session
-`npm install @adasp/latency-test@1.2.0 --save-exact` was run from `examples/` instead of
-`examples/angular/` — the package was NEVER installed in the Angular project.
+### Key notes for reference
+- Angular 22.0.1 is fully zoneless by default — zone.js must be added manually and
+  `provideZoneChangeDetection({ eventCoalescing: true })` added to `app.config.ts`.
+- `ChangeDetectorRef.markForCheck()` required after `await getUserMedia()` and CustomEvent
+  callbacks — zone.js alone does not trigger CD in these cases.
+- Prod-build local preview requires serving under the `baseHref` path:
+  ```
+  mkdir -p /tmp/ng-preview/latency-test-examples/angular
+  cp -r dist/angular/browser/* /tmp/ng-preview/latency-test-examples/angular/
+  npx serve -l 3000 /tmp/ng-preview
+  ```
+  Open `http://localhost:3000/latency-test-examples/angular/`.
 
-Angular compiler error during `npm start`:
-  "Cannot find module or type declarations for side-effect import of '@adasp/latency-test'"
-  src/main.ts:2:7
+## Next.js — resume here
 
-This error is caused by the missing package, NOT a TypeScript resolution issue.
+Tier 1, app 6 of 6. Follow the established per-app workflow above.
 
-### First action next session
-From `examples/angular/`:
-  npm install @adasp/latency-test@1.2.0 --save-exact
+### Docs commit
+Pin before starting:
+`git -C /Users/jose/Desktop/rountriplatencytest-webcomponent log --oneline docs/examples/nextjs.md`
 
-Then run `npm start` and verify the browser.
-
-### Key docs findings for Angular (record in README matrix when complete)
-1. Angular 22 is fully zoneless by default — zone.js must be added manually + configured with
-   `provideZoneChangeDetection()` for the docs component (written for zone.js Angular) to work.
-   This is a docs compatibility gap: docs page needs a note for Angular 22+ zoneless scaffolds.
-2. Docs component includes `stop()` method but no button calls it and the API doesn't document
-   `stop()` — verify at runtime whether this causes any error.
-
-### npm audit warning
-`npm install zone.js` reported 3 high severity vulnerabilities in other Angular build dependencies.
-Not blocking — run `npm audit` for details if needed.
-
-### Production build + preview (Angular specific)
-  ng build   (via npm run build)
-  → inspect dist/ to confirm output path before serving
-  → npx serve dist/angular/browser  (expected path, verify after build)
-
-### Verification harness wiring (when dev passes)
-Copy from repo root:
-  cp verification/angular/Verify.component.ts examples/angular/src/app/Verify.component.ts
-
-Then update `src/app/app.ts` to import and render `<app-verify></app-verify>` after
-`<app-latency-tester>`. Wire instructions also in `verification/angular/README.md`.
+### Special considerations
+- Next.js is the highest SSR risk — custom elements break at build time if imported outside a
+  client component.
+- Import `@adasp/latency-test` only inside a `'use client'` component, never at the server
+  module level.
+- Render the element inside `useEffect` or use dynamic import with `{ ssr: false }`.
+- `next.config.js` must set: `output: 'export'`, `basePath: '/latency-test-examples/nextjs'`,
+  `trailingSlash: true`, `images: { unoptimized: true }`.
+- No CDN variant.
 
 ## Environment (established — do not re-derive)
 

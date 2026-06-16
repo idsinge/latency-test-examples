@@ -5,7 +5,9 @@ import {
   AfterViewInit,
   OnDestroy,
   CUSTOM_ELEMENTS_SCHEMA,
-  Input
+  Input,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core'
 import { NgIf, DecimalPipe } from '@angular/common'
 
@@ -41,10 +43,11 @@ export class LatencyTesterComponent implements AfterViewInit, OnDestroy {
 
   private micStream: MediaStream | null = null
   private audioCtx: AudioContext | null = null
+  private readonly cdr = inject(ChangeDetectorRef)
 
-  private onResult = (e: Event) => { this.result = (e as CustomEvent).detail }
-  private onComplete = (e: Event) => { this.stats = (e as CustomEvent).detail }
-  private onError = (e: Event) => { this.error = (e as CustomEvent).detail.message }
+  private onResult = (e: Event) => { this.result = (e as CustomEvent).detail; this.cdr.markForCheck() }
+  private onComplete = (e: Event) => { this.stats = (e as CustomEvent).detail; this.cdr.markForCheck() }
+  private onError = (e: Event) => { this.error = (e as CustomEvent).detail.message; this.cdr.markForCheck() }
 
   ngAfterViewInit() {
     const el = this.ltRef.nativeElement
@@ -63,19 +66,27 @@ export class LatencyTesterComponent implements AfterViewInit, OnDestroy {
   }
 
   async connect() {
+    this.error = null
     try {
       this.audioCtx = new AudioContext({ latencyHint: 0 })
       this.micStream = await navigator.mediaDevices.getUserMedia(MIC_CONSTRAINTS)
       ;(this.ltRef.nativeElement as any).inputStream = this.micStream
       ;(this.ltRef.nativeElement as any).audioContext = this.audioCtx
       this.isConnected = true
+      this.cdr.markForCheck()
     } catch (e: any) {
       this.micStream?.getTracks().forEach(t => t.stop())
       this.micStream = null
+      this.audioCtx?.close()
+      this.audioCtx = null
       this.error = `Could not access mic: ${e.message}`
+      this.cdr.markForCheck()
     }
   }
 
-  start() { (this.ltRef.nativeElement as any).start() }
+  start() {
+    this.error = null
+    ;(this.ltRef.nativeElement as any).start()
+  }
   stop() { (this.ltRef.nativeElement as any).stop() }
 }
