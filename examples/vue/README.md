@@ -1,5 +1,27 @@
-# Vue 3 + Vite
+# Vue example — `<latency-test>`
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue 3 + Vite host app for [`@adasp/latency-test`](https://www.npmjs.com/package/@adasp/latency-test),
+mirroring the [docs example page](https://idsinge.github.io/latency-test/examples/vue).
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+Verification results are recorded in the root `README.md` matrix.
+
+## Run (dev)
+
+```sh
+npm ci
+npm run dev
+```
+
+Open `http://localhost:5173`. Requires microphone + headphones.
+
+## Build + preview (production)
+
+```sh
+npm run build
+npm run preview
+```
+
+## Vue note
+
+`isCustomElement` must be set in `vite.config.js` so Vue does not try to resolve
+`<latency-test>` as a Vue component. This is documented on the docs page.
