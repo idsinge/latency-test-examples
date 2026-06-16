@@ -1,5 +1,8 @@
 # Verification harness — Angular
 
+> **Automated:** `./verify.sh angular` from the repo root wires the harness and cleans up on exit. The manual steps below are the reference if you need to wire without the script.
+
+
 ## Files
 
 - `Verify.component.ts` — harness standalone component for `examples/angular/`

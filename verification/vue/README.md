@@ -1,5 +1,8 @@
 # Verification harness — Vue
 
+> **Automated:** `./verify.sh vue` from the repo root wires the harness and cleans up on exit. The manual steps below are the reference if you need to wire without the script.
+
+
 ## Files
 
 - `Verify.vue` — harness component for `examples/vue/`

@@ -1,5 +1,8 @@
 # Verification harness — React
 
+> **Automated:** `./verify.sh react` from the repo root wires the harness and cleans up on exit. The manual steps below are the reference if you need to wire without the script.
+
+
 ## Files
 
 - `Verify.jsx` — harness component for `examples/react/`

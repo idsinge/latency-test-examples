@@ -28,6 +28,30 @@ One small app per framework, mirroring the corresponding [docs example page](htt
 
 Pass = all checks ✓, the custom element upgrades (the component is headless — nothing visible renders), and a run yields a reliable result (`ratio > 18 dB`). See `CLAUDE.md` for full criteria.
 
+## Re-verifying an example app
+
+Use `verify.sh` at the repo root to wire a harness into any example app for a manual
+browser check session and clean up automatically when done:
+
+```
+./verify.sh <framework>   # vanilla-js | react | vue | svelte | angular | nextjs
+```
+
+The script copies the harness file(s) from `verification/<framework>/` into the app,
+patches the entry file to import and render the harness, prints the dev/build/preview
+commands to run, then waits. On Enter or Ctrl+C it restores all patched files from
+backups, removes copied harness files, and confirms `examples/<framework>/` is clean
+via `git status` before exiting.
+
+**Testing the script itself (no browser needed):**
+
+| Test | Command | Expected |
+|---|---|---|
+| No args | `./verify.sh` | Usage message, exit 1 |
+| Unknown framework | `./verify.sh badname` | Unknown framework message, exit 1 |
+| Happy path | `./verify.sh react`, then Enter immediately | Wires, then cleans up; dirty-check reports clean |
+| Collision guard | Run `./verify.sh react` twice in parallel | Second run aborts with "already exists" error |
+
 ## Latency-compensation demos (`demos/`)
 
 > **Quarantined until Tier 1 is complete:** no work happens in `demos/` — not even scaffolding — until the verification matrix above is fully passed and Phase 6 is signed off in the component repo.

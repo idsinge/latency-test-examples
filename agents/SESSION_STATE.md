@@ -94,11 +94,20 @@ Tier 1, app 6 of 6 (Next.js): **complete, committed, pushed.**
 
 ## Tier 1 — complete
 
-All 6 apps verified. Next steps (post-Tier-1, deferred):
-- UI polish pass
-- Root index page
-- verify.sh script
-- Sign off Phase 6 in the component repo
+All 6 apps verified.
+
+## Post-Tier-1 progress
+
+**Done:**
+- Item 6 — vanilla-js harnesses aligned with stricter triplet event-sequence check (committed dbd9737)
+- Item 1 — Phase 6 findings issue filed: https://github.com/idsinge/latency-test/issues/30 (awaiting sign-off)
+- Item 2 — `verify.sh` written, documented, Codex-reviewed. **Awaiting human test** (see test steps in root README).
+
+**Pending:**
+- Item 4 — Root index page + GitHub Pages workflow
+- Item 5 — Remove unused scaffold leftovers (stale file list needs audit first)
+- Item 3 — UI polish (dropped: violates docs-mirror rule; shelved until component docs patched)
+- Phase 6 sign-off gate: Tier 2 (`demos/`) is blocked until idsinge/latency-test#30 resolves
 
 ## Environment (established — do not re-derive)
 

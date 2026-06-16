@@ -1,5 +1,7 @@
 # Verification harness — vanilla-js
 
+> **Automated:** `./verify.sh vanilla-js` from the repo root wires both variants and cleans up on exit. The manual steps below are the reference if you need to wire without the script.
+
 ## Files
 
 - `verify.js` — harness for the npm variant (`examples/vanilla-js/`)

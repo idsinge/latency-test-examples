@@ -10,6 +10,9 @@ out/
 .angular/
 .vite/
 
+# verify.sh temporary backup files
+*.verify-bak
+
 # Test / deploy artifacts
 coverage/
 playwright-report/

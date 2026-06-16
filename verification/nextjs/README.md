@@ -1,5 +1,8 @@
 # Next.js verification harness
 
+> **Automated:** `./verify.sh nextjs` from the repo root wires the harness and cleans up on exit. The manual steps below are the reference if you need to wire without the script.
+
+
 ## Wire (for browser checks)
 
 1. Copy `Verify.tsx` into the app:
