@@ -56,6 +56,7 @@ jobs:
           mkdir -p _site/vanilla-js _site/react _site/vue _site/svelte _site/angular _site/nextjs
           touch _site/.nojekyll
           cp index.html _site/
+          cp -r assets/ _site/assets/
           cp -r examples/vanilla-js/dist/. _site/vanilla-js/
           cp -r examples/react/dist/. _site/react/
           cp -r examples/vue/dist/. _site/vue/
