@@ -1,6 +1,6 @@
 # Session state — resume point
 
-Last session: 2026-06-16. Read this together with `CLAUDE.md` to resume.
+Last session: 2026-06-17. Read this together with `CLAUDE.md` to resume.
 
 ## Where we are
 
@@ -104,10 +104,43 @@ All 6 apps verified.
 - Item 2 — `verify.sh` written, documented, Codex-reviewed. **Awaiting human test** (see test steps in root README).
 
 **Pending:**
-- Item 4 — Root index page + GitHub Pages workflow
+- Item 4 — Root index page + GitHub Pages workflow (plan drafted, sent to Codex for review — see below)
 - Item 5 — Remove unused scaffold leftovers (stale file list needs audit first)
 - Item 3 — UI polish (dropped: violates docs-mirror rule; shelved until component docs patched)
 - Phase 6 sign-off gate: Tier 2 (`demos/`) is blocked until idsinge/latency-test#30 resolves
+
+## Item 4 — plan sent to Codex (awaiting feedback)
+
+### What will be built
+Two new files:
+1. `index.html` (repo root) — static landing page, relative links, no iframes
+2. `.github/workflows/deploy.yml` — GitHub Actions Pages deployment
+
+### Artifact assembly (_site/ structure)
+    _site/
+      index.html                ← from repo root index.html
+      vanilla-js/               ← from examples/vanilla-js/dist/
+      react/                    ← from examples/react/dist/
+      vue/                      ← from examples/vue/dist/
+      svelte/                   ← from examples/svelte/dist/
+      angular/                  ← from examples/angular/dist/angular/browser/
+      nextjs/                   ← from examples/nextjs/out/
+
+All base paths already baked into builds — no changes to examples/ needed.
+
+### Workflow outline
+- Trigger: push to main + workflow_dispatch
+- Permissions: pages write + id-token write
+- Concurrency: group pages, cancel-in-progress false
+- build job: checkout → setup-node 22 → 6 build steps → assemble → upload-pages-artifact@v3
+- deploy job: needs build, environment github-pages, deploy-pages@v4
+
+### Open questions sent to Codex
+1. Artifact URL structure vs baked-in base paths correct?
+2. Angular output path `dist/angular/browser/` correct for CLI 22?
+3. Next.js output `out/` correct for output: 'export'?
+4. Any missing workflow config?
+5. cancel-in-progress: false vs true for Pages?
 
 ## Environment (established — do not re-derive)
 
