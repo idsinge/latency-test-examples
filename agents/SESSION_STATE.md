@@ -106,8 +106,8 @@ All 6 apps verified.
 **Done:**
 - Item 4 — Root index page + GitHub Pages workflow. `index.html` + `.github/workflows/deploy.yml` written, committed, deployed. All six app URLs verified live on Pages (committed 33b58cd, 0db0547, 73f4273).
 
-**Pending:**
-- Item 5 — Remove unused scaffold leftovers (stale file list needs audit first)
+**Done:**
+- Item 5 — Scaffold leftovers removed. 13 tracked files deleted + 3 untracked; Svelte/Vue favicon references also removed (Codex P2 fix). Committed 472b9e1 + follow-up.
 - Item 3 — UI polish (dropped: violates docs-mirror rule; shelved until component docs patched)
 - Phase 6 sign-off gate: Tier 2 (`demos/`) is blocked until idsinge/latency-test#30 resolves
 
