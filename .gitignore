@@ -19,6 +19,7 @@ playwright-report/
 test-results/
 .turbo/
 .vercel/
+_site/
 
 # Env and local files
 .env
