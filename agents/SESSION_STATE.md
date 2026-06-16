@@ -16,7 +16,7 @@ Tier 1, app 6 of 6 (Next.js): **complete, committed, pushed.**
 - Verification harness lives in `verification/<framework>/` only — never in `examples/`.
 - Each `examples/` app is a pure docs-code mirror.
 - Future apps follow this pattern from the start.
-- Post-Tier-1 deferred items in memory: UI polish, root index, verify.sh script.
+- Post-Tier-1 items (now active): Phase 6 sign-off in component repo, UI polish, root index page, verify.sh script.
 
 ## Established per-app workflow
 
