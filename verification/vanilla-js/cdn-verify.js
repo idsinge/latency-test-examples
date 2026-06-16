@@ -1,7 +1,6 @@
 // === VERIFICATION HARNESS (CDN variant) — not part of docs example ===
 
 const EVENTS = ['latency-start', 'latency-recording', 'latency-processing', 'latency-result', 'latency-complete', 'latency-error']
-const SUCCESS_SEQUENCE = ['latency-start', 'latency-recording', 'latency-processing', 'latency-result', 'latency-complete']
 
 // 1. Upgrade check — confirms element registered and exposes start()
 await customElements.whenDefined('latency-test')
@@ -18,14 +17,28 @@ EVENTS.forEach(name => {
     eventSequence.push(name)
     console.log(`[verify] event: ${name}`, e.detail ?? '')
 
+    if (name === 'latency-result') {
+      const { ratio, reliable } = e.detail
+      console.log(`[verify] ratio: ${ratio.toFixed(2)} dB, reliable: ${reliable}`)
+    }
+
     if (name === 'latency-complete') {
-      const seen = new Set(eventSequence)
-      const missing = SUCCESS_SEQUENCE.filter(n => !seen.has(n))
-      const hasError = seen.has('latency-error')
-      if (missing.length === 0 && !hasError) {
-        console.log('[verify] success-path sequence ✓', eventSequence)
+      const seq = eventSequence
+      const hasError = seq.includes('latency-error')
+      const startsOk = seq[0] === 'latency-start'
+      const endsOk = seq.at(-1) === 'latency-complete'
+      const middle = seq.slice(1, -1)
+      let patternOk = middle.length > 0 && middle.length % 3 === 0
+      for (let i = 0; i < middle.length; i += 3) {
+        if (middle[i] !== 'latency-recording' || middle[i + 1] !== 'latency-processing' || middle[i + 2] !== 'latency-result') {
+          patternOk = false
+          break
+        }
+      }
+      if (startsOk && endsOk && patternOk && !hasError) {
+        console.log('[verify] success-path sequence ✓', seq)
       } else {
-        console.warn('[verify] sequence check FAILED — missing:', missing, '| unexpected latency-error:', hasError)
+        console.warn('[verify] sequence check FAILED', { startsOk, endsOk, patternOk, hasError, seq })
       }
     }
   })
@@ -50,7 +63,12 @@ negBtn.addEventListener('click', () => {
 
   throwaway.addEventListener('latency-error', (e) => {
     clearTimeout(timeout)
-    console.log('[verify] negative-path latency-error fired ✓', e.detail.message)
+    const msgOk = e.detail.message.includes('inputStream is required')
+    if (msgOk) {
+      console.log('[verify] negative-path latency-error fired ✓', e.detail.message)
+    } else {
+      console.warn('[verify] negative-path: wrong message:', e.detail.message)
+    }
     negBtn.disabled = false
     throwaway.remove()
   })
