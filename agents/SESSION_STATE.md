@@ -9,14 +9,14 @@ Tier 1, app 2 of 6 (React): **complete, committed, pushed.**
 Tier 1, app 3 of 6 (Vue): **complete, committed, pushed.**
 Tier 1, app 4 of 6 (Svelte): **complete, committed, pushed.**
 Tier 1, app 5 of 6 (Angular): **complete, committed, pushed.**
-Tier 1, app 6 of 6 (Next.js): pending.
+Tier 1, app 6 of 6 (Next.js): **complete, committed, pushed.**
 
 ## Structural decisions (all sessions)
 
 - Verification harness lives in `verification/<framework>/` only — never in `examples/`.
 - Each `examples/` app is a pure docs-code mirror.
 - Future apps follow this pattern from the start.
-- Post-Tier-1 deferred items in memory: UI polish, root index, verify.sh script, per-app READMEs for vanilla-js/react/vue/svelte.
+- Post-Tier-1 deferred items in memory: UI polish, root index, verify.sh script.
 
 ## Established per-app workflow
 
@@ -63,23 +63,42 @@ Tier 1, app 6 of 6 (Next.js): pending.
   ```
   Open `http://localhost:3000/latency-test-examples/angular/`.
 
-## Next.js — resume here
-
-Tier 1, app 6 of 6. Follow the established per-app workflow above.
+## Next.js — complete
 
 ### Docs commit
-Pin before starting:
-`git -C /Users/jose/Desktop/rountriplatencytest-webcomponent log --oneline docs/examples/nextjs.md`
+`ffe9bbb`. No CDN variant.
 
-### Special considerations
-- Next.js is the highest SSR risk — custom elements break at build time if imported outside a
-  client component.
-- Import `@adasp/latency-test` only inside a `'use client'` component, never at the server
-  module level.
-- Render the element inside `useEffect` or use dynamic import with `{ ssr: false }`.
-- `next.config.js` must set: `output: 'export'`, `basePath: '/latency-test-examples/nextjs'`,
-  `trailingSlash: true`, `images: { unoptimized: true }`.
-- No CDN variant.
+### What was done
+- Scaffold: `create-next-app@latest` → Next.js 16.2.9 / React 19.2.4.
+- `@adasp/latency-test@1.2.0` installed exact.
+- `components/LatencyTester.tsx` — `'use client'` + lazy `import('@adasp/latency-test')` inside `useEffect`.
+- `app/page.tsx` — Server Component page importing the client component.
+- `next.config.ts` — `output: 'export'`, `basePath: '/latency-test-examples/nextjs'`, `trailingSlash: true`, `images: { unoptimized: true }`.
+- `types/custom-elements.d.ts` — JSX type declaration (required despite React 19 — see finding).
+- All browser checks passed; prod build clean; registry clean.
+- Dev result: ~36.89 ms, ~27 dB (reliable). Prod result: ~36.94 ms, ~27 dB (reliable).
+
+### Key findings
+- `basePath` applies in dev too — open `http://localhost:3000/latency-test-examples/nextjs/`.
+- Prod preview requires the `/tmp/nextjs-preview` workaround (same as Angular):
+  ```
+  mkdir -p /tmp/nextjs-preview/latency-test-examples/nextjs
+  cp -r out/* /tmp/nextjs-preview/latency-test-examples/nextjs/
+  npx serve -l 3000 /tmp/nextjs-preview
+  ```
+- **Docs finding:** docs claims React 19+ auto-bridges `HTMLElementTagNameMap` to JSX —
+  false in Next.js 16 + `@types/react` 19.2.17. Manual declaration required, and it must
+  use `declare module 'react' { namespace JSX { ... } }` not `declare namespace JSX`.
+- **Docs bug:** `connect()` does not reset error state on retry.
+- **Docs bug:** `connect()` does not close `AudioContext` in catch block.
+
+## Tier 1 — complete
+
+All 6 apps verified. Next steps (post-Tier-1, deferred):
+- UI polish pass
+- Root index page
+- verify.sh script
+- Sign off Phase 6 in the component repo
 
 ## Environment (established — do not re-derive)
 

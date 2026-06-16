@@ -25,3 +25,7 @@ test-results/
 # OS / editor
 .DS_Store
 npm-debug.log*
+
+# Claude Code agent instruction files inside example apps (not part of any docs mirror)
+examples/*/AGENTS.md
+examples/*/CLAUDE.md
