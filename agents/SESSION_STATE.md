@@ -103,8 +103,10 @@ All 6 apps verified.
 - Item 1 — Phase 6 findings issue filed: https://github.com/idsinge/latency-test/issues/30 (awaiting sign-off)
 - Item 2 — `verify.sh` written, documented, Codex-reviewed. **Awaiting human test** (see test steps in root README).
 
+**Done:**
+- Item 4 — Root index page + GitHub Pages workflow. `index.html` + `.github/workflows/deploy.yml` written, committed, deployed. All six app URLs verified live on Pages (committed 33b58cd, 0db0547, 73f4273).
+
 **Pending:**
-- Item 4 — Root index page + GitHub Pages workflow (plan drafted, sent to Codex for review — see below)
 - Item 5 — Remove unused scaffold leftovers (stale file list needs audit first)
 - Item 3 — UI polish (dropped: violates docs-mirror rule; shelved until component docs patched)
 - Phase 6 sign-off gate: Tier 2 (`demos/`) is blocked until idsinge/latency-test#30 resolves
