@@ -4,7 +4,7 @@ Vanilla JS host app for [`@adasp/latency-test`](https://www.npmjs.com/package/@a
 mirroring the [docs example page](https://idsinge.github.io/latency-test/examples/vanilla-js).
 Covers two install paths: npm (Vite bundler) and CDN (static HTML).
 
-Verification results are recorded in the root `README.md` matrix.
+Verification results are recorded in [`VERIFICATION.md`](../../VERIFICATION.md).
 
 ## npm variant — Run (dev)
 

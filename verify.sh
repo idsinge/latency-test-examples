@@ -113,6 +113,7 @@ case "$FRAMEWORK" in
     <title>Vanilla JS — latency-test</title>
   </head>
   <body>
+    <h1>Vanilla JS</h1>
     <button id="connect-btn">Connect Audio</button>
 
     <div id="test-ui" hidden>
@@ -235,7 +236,7 @@ TSEOF
     echo "[verify.sh] Angular wired. Steps:"
     echo "  cd examples/angular && ng serve"
     echo "  open http://localhost:4200/latency-test-examples/angular/"
-    echo "  ng build (prod preview: see SESSION_STATE for baseHref serve steps)"
+    echo "  ng build (prod preview: see VERIFICATION.md for baseHref serve steps)"
     ;;
 
   nextjs)
@@ -261,7 +262,7 @@ TSXEOF
     echo "[verify.sh] Next.js wired. Steps:"
     echo "  cd examples/nextjs && npm run dev"
     echo "  open http://localhost:3000/latency-test-examples/nextjs/"
-    echo "  npm run build (prod preview: see SESSION_STATE for basePath serve steps)"
+    echo "  npm run build (prod preview: see VERIFICATION.md for basePath serve steps)"
     ;;
 
 esac

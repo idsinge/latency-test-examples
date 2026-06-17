@@ -3,7 +3,7 @@
 Next.js 16 (App Router) host app for [`@adasp/latency-test`](https://www.npmjs.com/package/@adasp/latency-test),
 mirroring the [docs example page](https://idsinge.github.io/latency-test/examples/nextjs).
 
-Verification results are recorded in the root `README.md` matrix.
+Verification results are recorded in [`VERIFICATION.md`](../../VERIFICATION.md).
 
 ## Run (dev)
 

@@ -22,48 +22,31 @@ One small app per framework, mirroring the corresponding [docs example page](htt
 
 > StackBlitz works fully in Firefox (mic permission included). Chrome fails due to a WebContainer native-bindings incompatibility: Vite/Rolldown (Vanilla JS, React, Vue, Svelte) and Turbopack (Next.js) both require native bindings unavailable in WebContainers — unrelated to this project.
 
-### Verification matrix
+### Verification status
 
-All apps verified against `@adasp/latency-test@1.2.0`. Verification environment: Firefox 151.0.4 aarch64 / macOS 15.4 (24E248) / beyerdynamic DT 770 PRO 80Ω headphones + built-in mic. All listed apps passed: custom element upgrade, five-event success sequence, negative-path, registry consumption (fresh `npm ci`, lockfile resolves to registry.npmjs.org, no `file:`/`link:` refs), and clean browser console — in dev and production builds. Vanilla JS additionally passed CDN verification. The `<h1>` framework heading in each app is an intentional UX-only deviation from docs-mirror fidelity.
+All 6 apps verified against `@adasp/latency-test@1.2.0`. Full results, environment, and findings: [VERIFICATION.md](VERIFICATION.md).
 
-| Framework | Folder | Tooling | Docs commit | Dev | Prod build | Date | Notes |
-|---|---|---|---|---|---|---|---|
-| Vanilla JS (npm + CDN) | `examples/vanilla-js/` | create-vite@9 / Vite 8.x / Node 22.22.3 | `8975f31779` | npm ~44.2 ms r≥23 dB ✓; CDN ~44.2 ms r~29 dB ✓ | npm ~36.9 ms r~29 dB ✓; CDN ~44.2 ms r~29 dB ✓ | 2026-06-15 | Docs findings: `cdn.html` missing `<title>`, no SRI on CDN script tag, pre-upgrade race in inline script (all in docs snippet — not fixed here) |
-| React | `examples/react/` | create-vite@9 / Vite 8.x / React 19.2.6 / Node 22.22.3 | `ffe9bbbf` | ~36.9 ms r~29 dB ✓ | ~44.2 ms r~29 dB ✓ | 2026-06-15 | StrictMode double-mount logs upgrade check twice in dev — expected, not a finding |
-| Vue | `examples/vue/` | create-vite@9 / Vite 8.0.16 / Vue 3.5.38 / Node 22.22.3 | `208efe9` | ~44.2 ms r~29 dB ✓ | ~44.2 ms r~29 dB ✓ | 2026-06-15 | `isCustomElement` required in `vite.config.js` (documented on docs page) |
-| Svelte | `examples/svelte/` | create-vite@9 / Vite 8.0.16 / Svelte 5.56.3 / Node 22.22.3 | `208efe9` | ~36.9 ms r~29 dB ✓ | ~37.0 ms r~29 dB ✓ | 2026-06-15 | Docs Svelte 4 syntax (`on:click`, bare `let`) works verbatim in Svelte 5 — legacy mode auto-detected, no `runes={false}` needed. **Docs finding:** `<latency-test ... />` self-closing tag triggers Svelte build warning — docs should use `<latency-test ...></latency-test>` |
-| Angular | `examples/angular/` | @angular/cli 22.0.1 / Angular 22.0.1 / zone.js 0.16.2 / Node 22.22.3 | `208efe9` | ~36.92 ms r~29 dB ✓ | ~36.92 ms r~25.94 dB ✓ | 2026-06-16 | Angular 22 is fully zoneless by default — `zone.js` must be installed manually and `provideZoneChangeDetection({ eventCoalescing: true })` added to `app.config.ts`. `ChangeDetectorRef.markForCheck()` required after `await getUserMedia()` and CustomEvent callbacks — zone.js alone does not trigger CD in these cases. **Docs finding:** docs page needs note for Angular 22+ scaffolds. Prod-build local preview requires serving `dist/angular/browser` under the `/latency-test-examples/angular/` path prefix (`baseHref`): use `mkdir -p /tmp/ng-preview/latency-test-examples/angular && cp -r dist/angular/browser/* /tmp/ng-preview/latency-test-examples/angular/ && npx serve -l 3000 /tmp/ng-preview`. |
-| Next.js | `examples/nextjs/` | create-next-app 16.2.9 / Next.js 16.2.9 / React 19.2.4 / Node 22.22.3 | `ffe9bbb` | ~36.89 ms r~27 dB ✓ | ~36.94 ms r~27 dB ✓ | 2026-06-16 | SSR guard: `'use client'` + lazy `import('@adasp/latency-test')` inside `useEffect`. `basePath` applies in dev — open `/latency-test-examples/nextjs/`. Prod preview requires `/tmp/nextjs-preview` workaround (same baseHref issue as Angular). **Docs finding:** docs claims React 19+ picks up `HTMLElementTagNameMap` automatically — false in Next.js 16 + `@types/react` 19.2.17; `types/custom-elements.d.ts` is required, using `declare module 'react' { namespace JSX { ... } }` (not `declare namespace JSX` — that targets the wrong namespace in React 19). **Docs bugs (noted, not patched):** `connect()` does not reset error state on retry; `connect()` does not close `AudioContext` in catch block. |
-
-Pass = custom element upgrades (the component is headless — nothing visible renders), five-event success sequence in order with no `latency-error`, negative-path confirms `latency-error` wiring, registry consumption verified, clean browser console in dev and prod build, and a run yields a reliable result (`ratio > 18 dB`). See `CLAUDE.md` for full criteria.
+| Framework | Dev | Prod build | Date |
+|---|---|---|---|
+| Vanilla JS (npm + CDN) | ✓ | ✓ | 2026-06-15 |
+| React | ✓ | ✓ | 2026-06-15 |
+| Vue | ✓ | ✓ | 2026-06-15 |
+| Svelte | ✓ | ✓ | 2026-06-15 |
+| Angular | ✓ | ✓ | 2026-06-16 |
+| Next.js | ✓ | ✓ | 2026-06-16 |
 
 ## Re-verifying an example app
 
 Use `verify.sh` at the repo root to wire a harness into any example app for a manual
-browser check session and clean up automatically when done:
+browser check session and clean up automatically when done. See [verification/README.md](verification/README.md) for usage and the script's self-test checklist.
 
 ```
 ./verify.sh <framework>   # vanilla-js | react | vue | svelte | angular | nextjs
 ```
 
-The script copies the harness file(s) from `verification/<framework>/` into the app,
-patches the entry file to import and render the harness, prints the dev/build/preview
-commands to run, then waits. On Enter or Ctrl+C it restores all patched files from
-backups, removes copied harness files, and confirms `examples/<framework>/` is clean
-via `git status` before exiting.
-
-**Testing the script itself (no browser needed):**
-
-| Test | Command | Expected |
-|---|---|---|
-| No args | `./verify.sh` | Usage message, exit 1 |
-| Unknown framework | `./verify.sh badname` | Unknown framework message, exit 1 |
-| Happy path | `./verify.sh react`, then Enter immediately | Wires, then cleans up; dirty-check reports clean |
-| Collision guard | Run `./verify.sh react` twice in parallel | Second run aborts with "already exists" error |
-
 ## Latency-compensation demos (`demos/`)
 
-> **Quarantined until Tier 1 is complete:** no work happens in `demos/` — not even scaffolding — until the verification matrix above is fully passed and Phase 6 is signed off in the component repo.
+> **Quarantined until Tier 1 is complete:** no work happens in `demos/` — not even scaffolding — until the verification record above is fully passed and Phase 6 is signed off in the component repo: [idsinge/latency-test#30](https://github.com/idsinge/latency-test/issues/30).
 
 Small multitrack editors demonstrating that the measured round-trip latency can align a recording: a default metronome track is recorded through the microphone while wearing headphones — uncompensated, the recording lands late by the round-trip latency (audible flam, visible waveform offset); after running the latency test, the measured value shifts the recording into alignment.
 
