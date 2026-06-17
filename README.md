@@ -20,7 +20,7 @@ One small app per framework, mirroring the corresponding [docs example page](htt
 | <img src="assets/logos/angular.svg" width="18" alt="Angular"> | Angular | [live](https://idsinge.github.io/latency-test-examples/angular/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/angular) |
 | <img src="assets/logos/nextjs.svg" width="18" alt="Next.js"> | Next.js | [live](https://idsinge.github.io/latency-test-examples/nextjs/) | [open](https://stackblitz.com/fork/github/idsinge/latency-test-examples/tree/main/examples/nextjs) |
 
-> StackBlitz works fully in Firefox (mic permission included). Chrome fails due to a WebContainer native-bindings incompatibility: Vite/Rolldown (Vanilla JS, React, Vue, Svelte) and Turbopack (Next.js) both require native bindings unavailable in WebContainers — unrelated to this project.
+> StackBlitz works fully in Firefox (mic permission included), and in Chrome for Angular. The other five apps fail in Chrome due to a WebContainer native-bindings incompatibility: Vite/Rolldown (Vanilla JS, React, Vue, Svelte) and Turbopack (Next.js) both require native bindings unavailable in WebContainers — unrelated to this project.
 
 ### Verification status
 
@@ -65,10 +65,10 @@ Reference implementation: the [Hi-Audio fork of waveform-playlist](https://githu
 
 Each app is self-contained: `cd` into its folder and follow its own README. Bootstrap a fresh scaffold with `npm install`; verification runs use `npm ci` once the lockfile exists (this is what the registry-consumption check requires). All apps require a microphone and run on localhost or HTTPS.
 
-## About
+## Acknowledgments
 
-This repository is a companion to the [`<latency-test>` Web Component](https://github.com/idsinge/latency-test) — it hosts example applications only. The component source, API documentation, research background, full citation, and acknowledgments are in the component repository.
+<a href="https://hiaudio.fr"><img src="assets/logos/hi-audio.svg" alt="Hi-Audio" height="32"></a>
 
 This project is developed as part of *Hybrid and Interpretable Deep Neural Audio Machines*, funded by the **European Research Council (ERC)** under the European Union's Horizon Europe research and innovation programme (grant agreement No. 101052978).
 
-<a href="https://hiaudio.fr"><img src="assets/logos/hi-audio.svg" alt="Hi-Audio" height="32"></a>
+Component source, API documentation, research background, full citation, and acknowledgments are in the [component repository](https://github.com/idsinge/latency-test).

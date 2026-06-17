@@ -14,15 +14,19 @@
     .cdn { font-size: 0.875rem; color: #555; margin-left: 0.5rem; }
     .sb { font-size: 0.875rem; margin-left: 0.75rem; }
     .note { font-size: 0.8rem; color: #777; margin-top: 1rem; }
+    .warning { font-size: 0.9rem; color: #6b4e00; background: #fff8e1; border-left: 4px solid #f0ad4e; border-radius: 4px; padding: 0.75rem 1rem; margin-top: 1rem; }
     li img { vertical-align: middle; margin-right: 0.4rem; }
     footer { margin-top: 3rem; font-size: 0.875rem; color: #555; border-top: 1px solid #e0e0e0; padding-top: 1rem; }
+    .brand { margin-bottom: 1.5rem; }
   </style>
 </head>
 <body>
+  <p class="brand"><a href="https://hiaudio.fr"><img src="assets/logos/hi-audio.svg" alt="Hi-Audio" height="28"></a></p>
   <h1>latency-test examples</h1>
   <p class="subtitle">
     Host applications for the <code>&lt;latency-test&gt;</code> Web Component —
     <a href="https://www.npmjs.com/package/@adasp/latency-test">@adasp/latency-test</a>
+    <code>1.2.0</code>
   </p>
 
   <ul>
@@ -59,14 +63,13 @@
     </li>
   </ul>
 
-  <p class="note">StackBlitz links work fully in Firefox (mic permission included). Chrome may fail to start due to a WebContainer + Vite compatibility issue unrelated to this project.</p>
+  <p class="warning">⚠️ StackBlitz links work fully in Firefox (mic permission included), and in Chrome for Angular. <strong>The other five apps fail in Chrome</strong> due to a WebContainer native-bindings incompatibility: <em>Vite/Rolldown</em> (Vanilla JS, React, Vue, Svelte) and <em>Turbopack</em> (Next.js) both require native bindings unavailable in WebContainers — unrelated to this project.</p>
+  <p class="note">Full verification record: <a href="https://github.com/idsinge/latency-test-examples/blob/main/VERIFICATION.md">VERIFICATION.md</a>.</p>
 
   <footer>
     <a href="https://github.com/idsinge/latency-test-examples">github.com/idsinge/latency-test-examples</a>
     &nbsp;·&nbsp;
     <a href="https://idsinge.github.io/latency-test/">component docs</a>
-    <br><br>
-    <a href="https://hiaudio.fr"><img src="assets/logos/hi-audio.svg" alt="Hi-Audio" height="28"></a>
   </footer>
 </body>
 </html>

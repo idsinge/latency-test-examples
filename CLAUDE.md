@@ -33,12 +33,12 @@ Goal: prove each framework example page of the docs site works end-to-end agains
   6. **Registry consumption proven:** fresh `npm ci`; lockfile `resolved` URLs point to registry.npmjs.org; `npm ls @adasp/latency-test` shows `1.2.0`; no `file:`, `link:`, or workspace references anywhere.
 - The vanilla-js example also exercises the **CDN path** (a second HTML variant using the documented jsDelivr/unpkg `@1.2.0` pin) — its docs page advertises CDN usage, and the gate must not silently skip a documented install path. The npm variant itself is a minimal bundler/dev-server app (e.g. Vite vanilla template) so bundler-based npm consumption is genuinely verified; the CDN variant is a separate static HTML page.
 - **Verification order:** vanilla-js → React → Vue → Svelte → Angular → Next.js (cheapest smoke test first, SSR risk last).
-- **The README matrix is the verification record:** scaffold tooling + versions, package version, the docs-page commit SHA verified against, browser + OS + audio device setup, dev and production-build results, date, mismatches found. Without the commit SHA and environment, the record becomes ambiguous after docs drift.
+- **The verification record lives in `VERIFICATION.md`:** scaffold tooling + versions, package version, the docs-page commit SHA verified against, browser + OS + audio device setup, dev and production-build results, date, mismatches found. README keeps only a slim pass/date summary linking to it. Without the commit SHA and environment, the record becomes ambiguous after docs drift.
 - Runtime requirements: localhost or HTTPS; mic permission; create the `AudioContext` synchronously in the user gesture **before** `await getUserMedia()` (Firefox needs this to start in `running` state); the host owns the `AudioContext` and `MediaStream` — the component never closes or stops them.
 
 ## Tier 2 — `demos/` (latency-compensation R&D)
 
-> **Hard quarantine:** no work in `demos/` — not even scaffolding "to prepare" — until the Tier 1 matrix is complete and Phase 6 is signed off in the component repo. Tier 2 is the project's main scope-creep risk; this rule is the guardrail.
+> **Hard quarantine:** no work in `demos/` — not even scaffolding "to prepare" — until the Tier 1 verification record is complete and Phase 6 is signed off in the component repo: [idsinge/latency-test#30](https://github.com/idsinge/latency-test/issues/30). Tier 2 is the project's main scope-creep risk; this rule is the guardrail.
 
 Goal: demonstrate in a real multitrack editor that the measured round-trip latency can align a recording.
 
