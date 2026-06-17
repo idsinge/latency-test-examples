@@ -33,7 +33,7 @@ Gate: Tier 2 (`demos/`) blocked until [idsinge/latency-test#30](https://github.c
 4. Write Codex prompt for plan review (user pastes into Codex, no file changes)
 5. Update plan with Codex feedback
 6. User runs scaffold commands
-7. Claude writes all files after user confirms scaffold done and reviews the plan
+7. Claude writes the approved files once the user confirms scaffold is done
 8. User runs `npm run dev`, shares console logs
 9. User runs `npm run build && npm run preview`, shares console logs
 10. User runs `npm ci && npm ls @adasp/latency-test && grep -E "file:|link:" package-lock.json`
