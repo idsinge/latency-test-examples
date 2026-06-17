@@ -7,15 +7,13 @@ those only if you need historical context, not by default.
 ## Where we are
 
 Tier 1: complete (all 6 apps verified, committed, pushed).
-Post-Tier-1 polish: in progress — see Active next steps.
+Post-Tier-1 polish: complete — no open items right now.
 Gate: Tier 2 (`demos/`) blocked until [idsinge/latency-test#30](https://github.com/idsinge/latency-test/issues/30) is signed off.
 
 ## Active next steps
 
-1. CI: add a `pull_request` workflow (not started) — build all 6 example apps, check
-   registry consumption (`npm ls @adasp/latency-test`, grep lockfile for
-   `file:`/`link:`) per app. Separate file from `deploy.yml`. Keep audio/mic
-   verification manual.
+None currently. The next likely step is starting Tier 2 once the gate above clears —
+re-read `CLAUDE.md`'s Tier 2 section before doing anything in `demos/`.
 
 ## Structural decisions (durable)
 

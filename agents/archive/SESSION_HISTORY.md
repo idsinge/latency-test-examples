@@ -38,7 +38,21 @@ pointer restored. `CLAUDE.md`: fixed stale "README matrix" references (twice) no
 that `VERIFICATION.md` is the record. Both rounds independently reviewed by Codex
 for cross-file consistency and link/asset integrity.
 
-## 2026-06-17 — agents/ cleanup (this session)
+## 2026-06-17 — agents/ cleanup (`386c1ff`, `8353445`, `fc54720`)
 
 Archived `KICKOFF_PROMPT.md` (Tier 1 mission, now historical) to this folder;
-trimmed `SESSION_STATE.md` to active-state-only, moving past narrative here.
+trimmed `SESSION_STATE.md` to active-state-only, moving past narrative here. Two
+follow-up Codex-reviewed wording tightenings on the per-app workflow's file-write
+confirmation step, settling on "Claude writes only the approved files after the user
+explicitly confirms Claude should write them" — closes an ambiguity without changing
+`CLAUDE.md`'s binding rules.
+
+## 2026-06-17 — pull_request CI workflow (`30e0d2d`)
+
+Added `.github/workflows/pr-checks.yml`: matrix job builds all 6 apps independently
+and verifies registry consumption via `jq` against `package.json`/`package-lock.json`
+(exact version pin, lockfile resolves to registry.npmjs.org at 1.2.0, no symlink
+marker, no `file:`/`link:`/`workspace:` references). Two rounds of Codex review
+(YAML correctness, jq query precision, negative-case dry runs against fabricated bad
+lockfile entries). This was the last open item from the post-Tier-1 plan —
+`SESSION_STATE.md`'s "Active next steps" is now empty.
