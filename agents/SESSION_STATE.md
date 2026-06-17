@@ -1,18 +1,29 @@
 # Session state — resume point
 
-Last session: 2026-06-16. Read this together with `CLAUDE.md` to resume.
+Read together with `CLAUDE.md`. This file tracks only current/active state — past
+session narratives live in `agents/archive/SESSION_HISTORY.md` and the git log; read
+those only if you need historical context, not by default.
 
 ## Where we are
 
-Tier 1: **complete** — all 6 apps verified, committed, pushed.
-Post-Tier-1: **complete** — all items done or explicitly shelved.
-Gate: Tier 2 (`demos/`) blocked until idsinge/latency-test#30 is signed off.
+Tier 1: complete (all 6 apps verified, committed, pushed).
+Post-Tier-1 polish: in progress — see Active next steps.
+Gate: Tier 2 (`demos/`) blocked until [idsinge/latency-test#30](https://github.com/idsinge/latency-test/issues/30) is signed off.
 
-## Structural decisions (all sessions)
+## Active next steps
+
+1. CI: add a `pull_request` workflow (not started) — build all 6 example apps, check
+   registry consumption (`npm ls @adasp/latency-test`, grep lockfile for
+   `file:`/`link:`) per app. Separate file from `deploy.yml`. Keep audio/mic
+   verification manual.
+
+## Structural decisions (durable)
 
 - Verification harness lives in `verification/<framework>/` only — never in `examples/`.
 - Each `examples/` app is a pure docs-code mirror.
 - Future apps follow this pattern from the start.
+- Verification record lives in `VERIFICATION.md` (full) + README (slim summary table
+  linking to it). All matrix updates go in `VERIFICATION.md`, not README.
 
 ## Established per-app workflow
 
@@ -22,15 +33,17 @@ Gate: Tier 2 (`demos/`) blocked until idsinge/latency-test#30 is signed off.
 4. Write Codex prompt for plan review (user pastes into Codex, no file changes)
 5. Update plan with Codex feedback
 6. User runs scaffold commands
-7. Claude writes all files after user confirms scaffold done
+7. Claude writes all files after user confirms scaffold done and reviews the plan
 8. User runs `npm run dev`, shares console logs
 9. User runs `npm run build && npm run preview`, shares console logs
 10. User runs `npm ci && npm ls @adasp/latency-test && grep -E "file:|link:" package-lock.json`
-11. Claude updates README matrix row and SESSION_STATE
+11. Claude updates `VERIFICATION.md` and SESSION_STATE
 12. Claude writes Codex sign-off prompt (user pastes into Codex, no file changes)
-13. Claude commits + pushes after green light
+13. Claude commits + pushes only after explicit user confirmation
 
-## Angular — key notes
+## Framework-specific technical notes
+
+### Angular
 
 - Angular 22.0.1 is fully zoneless by default — zone.js must be added manually and
   `provideZoneChangeDetection({ eventCoalescing: true })` added to `app.config.ts`.
@@ -43,8 +56,10 @@ Gate: Tier 2 (`demos/`) blocked until idsinge/latency-test#30 is signed off.
   npx serve -l 3000 /tmp/ng-preview
   ```
   Open `http://localhost:3000/latency-test-examples/angular/`.
+- StackBlitz works in Chrome for Angular, unlike the other 5 example apps (confirmed
+  2026-06-17 — see README.md/index.html StackBlitz note).
 
-## Next.js — key notes
+### Next.js
 
 - `basePath` applies in dev too — open `http://localhost:3000/latency-test-examples/nextjs/`.
 - Prod preview requires the `/tmp/nextjs-preview` workaround (same as Angular):
@@ -58,22 +73,6 @@ Gate: Tier 2 (`demos/`) blocked until idsinge/latency-test#30 is signed off.
   `declare module 'react' { namespace JSX { ... } }` not `declare namespace JSX`.
 - **Docs bugs:** `connect()` does not reset error state on retry; does not close
   `AudioContext` in catch block.
-
-## Post-Tier-1 progress
-
-**All done:**
-- Item 1 — Phase 6 findings issue filed: https://github.com/idsinge/latency-test/issues/30 (awaiting sign-off in component repo)
-- Item 2 — `verify.sh` written, Codex-reviewed (two rounds), human-tested all 4 scenarios, documented in README + all verification READMEs (committed 887e2c9)
-- Item 3 — UI polish: dropped (violates docs-mirror rule; shelved until component docs patched)
-- Item 4 — Root index page + GitHub Pages workflow. `index.html` + `.github/workflows/deploy.yml` deployed; all six URLs verified live on Pages; StackBlitz links added (works fully in Firefox — fast load, mic permission granted; Chrome broken by rolldown/WASM Atomics issue in StackBlitz WebContainers, not our code)
-- Item 5 — Scaffold leftovers removed (13 tracked + 3 untracked files); Svelte/Vue favicon references fixed (Codex P2)
-- Item 6 — vanilla-js harnesses aligned with stricter triplet event-sequence check (committed dbd9737)
-
-**Pending (external):**
-- Phase 6 sign-off: idsinge/latency-test#30 must resolve before Tier 2 opens
-
-**Minor deferred:**
-- StackBlitz Firefox note in `index.html` (Chrome incompatibility caveat)
 
 ## Environment (established — do not re-derive)
 
