@@ -1,0 +1,56 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [vanilla-js, react, vue, svelte, angular, nextjs]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install (proves registry consumption via fresh npm ci)
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Sanity-check installed dependency tree
+        run: npm ls @adasp/latency-test
+
+      - name: Verify package.json pins an exact version (no ^ or ~)
+        run: |
+          SPEC=$(jq -r '.dependencies["@adasp/latency-test"]' package.json)
+          test "$SPEC" = "1.2.0"
+
+      - name: Verify lockfile resolves @adasp/latency-test to the registry at 1.2.0
+        run: |
+          ENTRY=$(jq -c '.packages["node_modules/@adasp/latency-test"]' package-lock.json)
+          test "$(echo "$ENTRY" | jq -r '.version')" = "1.2.0"
+          case "$(echo "$ENTRY" | jq -r '.resolved')" in
+            https://registry.npmjs.org/@adasp/latency-test/*) : ;;
+            *) echo "::error::@adasp/latency-test did not resolve to the npm registry"; exit 1 ;;
+          esac
+          test "$(echo "$ENTRY" | jq -r '.link // false')" = "false"
+
+      - name: "Verify no file:/link:/workspace: references anywhere in lockfile"
+        run: |
+          if grep -E '"(file|link|workspace):' package-lock.json; then
+            echo "::error::Found a local file:/link:/workspace: reference in package-lock.json — this repo must only consume the published package"
+            exit 1
+          fi
