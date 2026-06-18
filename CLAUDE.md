@@ -56,7 +56,7 @@ The fork records the **raw mic stream directly** via MediaRecorder (`initRecorde
 
 ### Hi-Audio (parallel external track)
 
-Hi-Audio is the component's primary target. Its integration is happening **separately and in parallel** in the Hi-Audio frontend repo (by the user, using the fork above). This repo does **not** represent the Hi-Audio integration — Phase A's demo (below) uses the same fork only to prove the compensation pattern in isolation, pinned to a fixed commit; it is not wired to the Hi-Audio frontend in any way.
+Hi-Audio is the component's primary target. `gilpanal/waveform-playlist`'s build output is a real dependency the Hi-Audio frontend imports — for latency compensation and other features built on top of the original library — but the fork's repo is not the Hi-Audio frontend repo itself; that integration happens **separately and in parallel**, in the Hi-Audio frontend repo, by the user. This repo does **not** represent the Hi-Audio integration — Phase A's demo (below) uses the same fork only to prove the compensation pattern in isolation, pinned to a fixed commit; it is not wired to the Hi-Audio frontend in any way.
 
 ### Demo targets
 
