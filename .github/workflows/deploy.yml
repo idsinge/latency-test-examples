@@ -51,9 +51,13 @@ jobs:
         working-directory: examples/nextjs
         run: npm ci && npm run build
 
+      - name: Build waveform-playlist-legacy demo
+        working-directory: demos/waveform-playlist-legacy
+        run: npm ci && npm run build
+
       - name: Assemble _site
         run: |
-          mkdir -p _site/vanilla-js _site/react _site/vue _site/svelte _site/angular _site/nextjs
+          mkdir -p _site/vanilla-js _site/react _site/vue _site/svelte _site/angular _site/nextjs _site/demos/waveform-playlist-legacy
           touch _site/.nojekyll
           cp index.html _site/
           cp -r assets/ _site/assets/
@@ -63,6 +67,7 @@ jobs:
           cp -r examples/svelte/dist/. _site/svelte/
           cp -r examples/angular/dist/angular/browser/. _site/angular/
           cp -r examples/nextjs/out/. _site/nextjs/
+          cp -r demos/waveform-playlist-legacy/dist/. _site/demos/waveform-playlist-legacy/
 
       - uses: actions/configure-pages@v5
 

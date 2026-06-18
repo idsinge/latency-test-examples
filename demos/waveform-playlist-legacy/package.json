@@ -1,0 +1,18 @@
+{
+  "name": "waveform-playlist-legacy",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.0.12"
+  },
+  "dependencies": {
+    "waveform-playlist": "git+https://github.com/gilpanal/waveform-playlist.git#58d6a9a05154a9d3ea66706c6156f627943150dd",
+    "@adasp/latency-test": "^1.2.0"
+  }
+}

@@ -46,8 +46,6 @@ browser check session and clean up automatically when done. See [verification/RE
 
 ## Latency-compensation demos (`demos/`)
 
-> **Quarantined until Tier 1 is complete:** no work happens in `demos/` — not even scaffolding — until the verification record above is fully passed and Phase 6 is signed off in the component repo: [idsinge/latency-test#30](https://github.com/idsinge/latency-test/issues/30).
-
 Small multitrack editors demonstrating that the measured round-trip latency can align a recording: a default metronome track is recorded through the microphone while wearing headphones — uncompensated, the recording lands late by the round-trip latency (audible flam, visible waveform offset); after running the latency test, the measured value shifts the recording into alignment.
 
 Reference implementation: the [Hi-Audio fork of waveform-playlist](https://github.com/gilpanal/waveform-playlist), which already applies a measured latency value to recorded tracks (MediaRecorder-based).
@@ -56,6 +54,7 @@ Reference implementation: the [Hi-Audio fork of waveform-playlist](https://githu
 
 | Demo | Target library | Status |
 |---|---|---|
+| [waveform-playlist (legacy fork)](demos/waveform-playlist-legacy/) | [gilpanal/waveform-playlist](https://github.com/gilpanal/waveform-playlist) (commit-pinned) | in progress — see [NOTES.md](demos/waveform-playlist-legacy/NOTES.md) |
 | waveform-playlist (React) | [naomiaro/waveform-playlist](https://github.com/naomiaro/waveform-playlist) | planned |
 | dawcore (Web Components) | [`@dawcore/*` migration spec](https://github.com/naomiaro/waveform-playlist/blob/main/docs/specs/web-components-migration.md) | planned |
 | openDAW | [andremichelle/openDAW](https://github.com/andremichelle/openDAW) | stretch goal |

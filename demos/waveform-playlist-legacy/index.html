@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"
+    integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a" crossorigin="anonymous" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>waveform-playlist (legacy) — latency compensation demo</title>
+</head>
+
+<body>
+  <h1>waveform-playlist (legacy fork) — latency compensation demo</h1>
+  <p><strong>Recording through headphones and a mic always lands late</strong> — delayed by the device's round-trip
+    audio latency.</p>
+  <ul>
+    <li>You'll <em>hear</em> it as a <a href="https://youtu.be/5ujmfxvr0bQ?si=ws5nzKMycqNcAfbv" target="_blank"
+        rel="noopener">"flam"</a> against the guide track.</li>
+    <li>You'll <em>see</em> it as a waveform offset.</li>
+  </ul>
+  <p>
+    This demo proves the fix: measure that round-trip latency with the
+    <code>&lt;latency-test&gt;</code> component, then shift the next recording's start by
+    that amount to remove the offset.
+  </p>
+  <p>Follow the steps below in order.</p>
+
+  <button id="connect-btn">Connect Audio</button>
+
+  <div id="setup-ui" hidden>
+    <h2>1. Record (uncalibrated)</h2>
+    <p>Record the metronome guide track through your mic, with no compensation applied.</p>
+    <button id="record-uncalibrated-btn">Record (uncalibrated)</button>
+
+    <h2>2. Play it back</h2>
+    <p>Listen for the late "flam" against the guide track and look at the waveform offset.</p>
+    <button id="play-btn">Play</button>
+    <button id="stop-btn">Stop</button>
+
+    <h2>3. Measure latency</h2>
+    <button id="run-test-btn">Run latency test</button>
+    <p id="latency-result"></p>
+
+    <h2>4. Mute the uncalibrated track</h2>
+    <p>Use that track's own mute button in the playlist below so only the calibrated take plays next.</p>
+
+    <h2>5. Record (calibrated)</h2>
+    <p>Record again — this time the measured latency shifts the take into alignment. Play it back to compare.</p>
+    <button id="record-calibrated-btn" disabled>Record (calibrated)</button>
+
+    <div id="playlist"></div>
+  </div>
+
+  <latency-test id="lt" recording-mode="mediarecorder-1ch" number-of-tests="1"></latency-test>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
