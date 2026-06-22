@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dawcore — latency compensation demo</title>
+</head>
+
+<body>
+  <h1>dawcore — latency compensation demo</h1>
+  <p><strong>Recording through headphones and a mic always lands late</strong> — delayed by the device's round-trip
+    audio latency.</p>
+  <ul>
+    <li>You'll <em>hear</em> it as a <a href="https://youtu.be/5ujmfxvr0bQ?si=ws5nzKMycqNcAfbv" target="_blank"
+        rel="noopener">"flam"</a> against the guide track.</li>
+    <li>You'll <em>see</em> it as a waveform offset.</li>
+  </ul>
+  <p>
+    This demo proves the fix against <a href="https://github.com/naomiaro/waveform-playlist" target="_blank"
+      rel="noopener">dawcore</a>, an AudioWorklet-based multitrack editor: measure round-trip latency with the
+    <code>&lt;latency-test&gt;</code> component, then apply that value to a recording's start offset.
+  </p>
+  <p>
+    Unlike a simpler "no compensation vs. measured" comparison, dawcore already applies its own internal
+    compensation to every recording (based on <code>AudioContext.outputLatency</code>, the browser's own estimate).
+    So the "uncalibrated" take below isn't truly uncompensated — it's dawcore's own built-in guess. The "calibrated"
+    take replaces that guess with the value <code>&lt;latency-test&gt;</code> actually measured. The alignment proof
+    in step 6 shows both numbers side by side, so the real comparison stays honest.
+  </p>
+  <p>Follow the steps below in order.</p>
+
+  <button id="connect-btn">Connect Audio</button>
+
+  <div id="setup-ui" hidden>
+    <h2>1. Record (uncalibrated)</h2>
+    <p>Record the metronome guide track through your mic, using dawcore's own built-in compensation (no external
+      measurement applied yet).</p>
+    <button id="record-uncalibrated-btn">Record (uncalibrated)</button>
+
+    <h2>2. Play it back</h2>
+    <p>Listen for any remaining late "flam" against the guide track and look at the waveform offset.</p>
+    <button id="play-btn">Play</button>
+    <button id="stop-btn">Stop</button>
+
+    <h2>3. Measure latency</h2>
+    <button id="run-test-btn">Run latency test</button>
+    <p id="latency-result"></p>
+
+    <h2>4. Listen, then delete the uncalibrated track</h2>
+    <p>Compare it against the guide track by ear, then delete it using its own control in the
+      editor below — a known dawcore bug
+      (<a href="https://github.com/naomiaro/waveform-playlist/issues/501" target="_blank" rel="noopener">#501</a>)
+      makes mute/volume unreliable once another track is added, so delete is used instead to keep
+      only the calibrated take playing next.</p>
+
+    <h2>5. Record (calibrated)</h2>
+    <p>Record again — this time the measured latency replaces dawcore's internal estimate. Play it back to compare.
+    </p>
+    <button id="record-calibrated-btn" disabled>Record (calibrated)</button>
+
+    <h2>6. Sample-domain alignment proof</h2>
+    <p>Detected metronome clicks are matched between the guide track and each take to measure the actual
+      misalignment in samples — not just by eye or ear.</p>
+    <div id="alignment-proof"></div>
+
+    <daw-editor id="editor" samples-per-pixel="1024" wave-height="100" timescale></daw-editor>
+  </div>
+
+  <latency-test id="lt" recording-mode="audioworklet" number-of-tests="1"></latency-test>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

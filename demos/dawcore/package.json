@@ -1,0 +1,22 @@
+{
+  "name": "dawcore",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.0.12"
+  },
+  "dependencies": {
+    "@dawcore/components": "^0.0.24",
+    "@dawcore/transport": "^0.0.13",
+    "@waveform-playlist/core": "12.2.0",
+    "@waveform-playlist/engine": "13.4.0",
+    "@waveform-playlist/worklets": "12.2.0",
+    "@adasp/latency-test": "^1.2.0"
+  }
+}
