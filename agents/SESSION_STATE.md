@@ -11,18 +11,14 @@ Post-Tier-1 polish: complete — no open items right now.
 Tier 2 Phase A: complete. `demos/waveform-playlist-legacy` committed and pushed
 (`19ea79b`), deployed via GitHub Pages. Full record in
 `demos/waveform-playlist-legacy/NOTES.md`.
-Tier 2 Phase B (dawcore): complete, committed (`a312863`), **not yet pushed**.
-Full record in `demos/dawcore/NOTES.md`.
+Tier 2 Phase B (dawcore): complete, committed (`a312863`, plus a follow-up
+`734d4d6` for this file), pushed, deployed via GitHub Pages, and the live URL
+(`https://idsinge.github.io/latency-test-examples/demos/dawcore/`) confirmed
+working by the user. Full record in `demos/dawcore/NOTES.md`.
 
 ## Active next steps
 
-**Push `a312863` to `main`** — only after explicit user confirmation, per the
-usual rule. Once pushed, verify the deployed dawcore demo at
-`https://idsinge.github.io/latency-test-examples/demos/dawcore/` (not just the
-local build/preview), since `CLAUDE.md`'s deployment section requires
-verifying deployed URLs.
-
-**After push, in order:**
+**Nothing blocking.** Next, in order:
 1. Propose the upstream GitHub **issue** (not PR) to `naomiaro/waveform-playlist`
    for a public `RecordingOptions` field (e.g. `externalLatencySamples`) —
    queued, not started. Use this demo's finished state as the proof-of-concept.
