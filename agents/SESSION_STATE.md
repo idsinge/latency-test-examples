@@ -27,7 +27,7 @@ working by the user. Full record in `demos/dawcore/NOTES.md`.
    (`TrackDescriptor` has no such field — must keep the `<daw-track>` element
    reference and check `.isConnected` instead, confirmed via Codex review
    before shipping, not a live bug).
-2. Then: Phase B's next target, the new React `waveform-playlist`
+2. Then: Phase C, the new React `waveform-playlist`
    (`@waveform-playlist/*` packages, not dawcore) — same read-the-installed-
    source methodology, but two head starts this time: `src/alignment.js` is
    stack-agnostic (pure functions over `AudioBuffer`s, no DOM/dawcore

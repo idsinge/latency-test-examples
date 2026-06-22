@@ -4,10 +4,12 @@ Full verification results for the `examples/` apps in this repo, run against the
 published `@adasp/latency-test` package. See [CLAUDE.md](CLAUDE.md) for the full pass
 criteria and process this record follows.
 
-All findings below were filed against the component repo as
+This file is the verification record for **Tier 1 (`examples/`) only**. All findings
+below were filed against the component repo as
 [idsinge/latency-test#30](https://github.com/idsinge/latency-test/issues/30) (Phase 6
-findings) — awaiting sign-off there. Tier 2 (`demos/`) stays quarantined until that
-issue resolves.
+findings), closed 2026-06-17. Tier 2 (`demos/`) work was unblocked once that issue
+closed — Tier 2 status and findings live in README.md's roadmap table and each
+demo's own `NOTES.md`, not in this document.
 
 ## Environment
 

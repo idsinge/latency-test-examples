@@ -2,7 +2,8 @@
 
 Phase A of Tier 2: prove the latency-compensation A/B concept fast by depending directly
 on an already-working reference fork, before tackling the newer AudioWorklet-based
-libraries (Phase B, not started).
+libraries — Phase B (`dawcore`), since shipped, see `demos/dawcore/NOTES.md`; Phase C
+(the new React `waveform-playlist`), not started.
 
 ## Dependency
 
