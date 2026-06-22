@@ -56,3 +56,37 @@ marker, no `file:`/`link:`/`workspace:` references). Two rounds of Codex review
 (YAML correctness, jq query precision, negative-case dry runs against fabricated bad
 lockfile entries). This was the last open item from the post-Tier-1 plan —
 `SESSION_STATE.md`'s "Active next steps" is now empty.
+
+## 2026-06-18 — Tier 2 Phase A: waveform-playlist (legacy fork) (`f7fdefb`, `19ea79b`)
+
+Shipped the first Tier 2 demo, proving the latency-compensation A/B concept via
+`gilpanal/waveform-playlist`'s already-working MediaRecorder-based compensation
+pattern, git-pinned to a fixed commit. Reviewed end-to-end by Codex (plan review,
+completed-block review, final sign-off), with fixes for a git-dependency lockfile
+SSH/HTTPS portability issue, an `AudioContext` leak on failed connect, an
+overlapping-recordings race, and stale-latency reuse after an unreliable
+measurement. Full record in `demos/waveform-playlist-legacy/NOTES.md`.
+
+## 2026-06-22 — Tier 2 Phase B: dawcore (`a312863`, `734d4d6`, `1bf7507`, `a5a11a8`)
+
+Shipped the second Tier 2 demo, proving the same concept via dawcore's
+AudioWorklet-based recording pipeline (`recording-mode="audioworklet"`). Two real
+bugs found: a false-reliable whole-beat-shift bug in this demo's own sample-domain
+alignment-proof code (`src/alignment.js`, fixed by requiring an exact onset-count
+match for `reliable`, not `<= 1`), and a genuine upstream `@waveform-playlist/engine`
+bug (mute/solo/volume/pan silently reset whenever any new track loads, filed as
+[naomiaro/waveform-playlist#501](https://github.com/naomiaro/waveform-playlist/issues/501)).
+Reviewed end-to-end by Codex (plan review, diff review, two completed-block sign-off
+rounds). Sample-domain alignment proof (required for Phase B per `CLAUDE.md`):
+uncalibrated residual ~35-41ms, calibrated residual -0.2 to 5.2ms, both
+`reliable: true`. Full record in `demos/dawcore/NOTES.md`.
+
+A follow-up post-shipment repo-consistency audit found and fixed: a stale
+"not yet pushed" claim in `SESSION_STATE.md`; `CLAUDE.md`'s Tier 2 "hard
+quarantine" rule and `VERIFICATION.md`'s quarantine note both still reading as
+unresolved despite `idsinge/latency-test#30` having closed 2026-06-17 (before
+either Tier 2 demo started); and stale "Phase B not started" references across
+`CLAUDE.md`, `VERIFICATION.md`, and both demos' `NOTES.md`. Normalized phase
+numbering repo-wide: Phase A = legacy fork (shipped), Phase B = dawcore
+(shipped), Phase C = new React `waveform-playlist` (not started). Two rounds of
+Codex review.
