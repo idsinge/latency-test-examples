@@ -18,19 +18,14 @@ Post-Phase-B consistency audit: complete, committed (`1bf7507`, `a5a11a8`),
 pushed — normalized Phase A/B/C numbering repo-wide, cleared stale quarantine-
 gate references. Both phases' full narratives are in
 `agents/archive/SESSION_HISTORY.md`, not duplicated here.
+Upstream `RecordingOptions` issue: complete. Filed as
+[naomiaro/waveform-playlist#502](https://github.com/naomiaro/waveform-playlist/issues/502)
+(2026-06-23). Full narrative in `agents/archive/SESSION_HISTORY.md`.
 
 ## Active next steps
 
-**Nothing blocking.** Next, in order:
-1. Propose the upstream GitHub **issue** (not PR) to `naomiaro/waveform-playlist`
-   for a public `RecordingOptions` field (e.g. `externalLatencySamples`) —
-   queued, not started. Use the dawcore demo's finished state as the
-   proof-of-concept. Also worth citing the two API papercuts already found:
-   `_addRecordedClip` unofficial/unexported, and `editor.tracks` not carrying
-   `trackId` (`TrackDescriptor` has no such field — must keep the `<daw-track>`
-   element reference and check `.isConnected` instead, confirmed via Codex
-   review before shipping, not a live bug).
-2. Then: Phase C, the new React `waveform-playlist`
+**Nothing blocking.** Next:
+1. Phase C, the new React `waveform-playlist`
    (`@waveform-playlist/*` packages, not dawcore) — same read-the-installed-
    source methodology, but two head starts this time: `src/alignment.js` is
    stack-agnostic (pure functions over `AudioBuffer`s, no DOM/dawcore

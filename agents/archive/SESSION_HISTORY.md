@@ -90,3 +90,19 @@ either Tier 2 demo started); and stale "Phase B not started" references across
 numbering repo-wide: Phase A = legacy fork (shipped), Phase B = dawcore
 (shipped), Phase C = new React `waveform-playlist` (not started). Two rounds of
 Codex review.
+
+## 2026-06-23 — upstream RecordingOptions issue filed (naomiaro/waveform-playlist#502)
+
+Proposed a `latencyOffsetSamples` field on dawcore's `RecordingOptions`, using
+the Phase B demo as proof-of-concept (cites the ~41ms vs. ~0-5ms residual
+numbers from `demos/dawcore/NOTES.md`). Drafted, then every technical claim
+verified directly against the local read-only reference clone
+(`~/Desktop/dawlatencydemos/dawcore`, commit `6971ab6`) before Codex review.
+Codex caught two real inaccuracies (an imprecise claim about where buffer
+slicing happens — it's `addRecordedClip()` in `recording-clip.ts`, not
+`stopRecording()` itself — and a TS snippet using `number` instead of the
+real interface's literal types) and suggested renaming the proposed field
+from `externalLatencySamples` to `latencyOffsetSamples` (behavior-based, not
+source-based); all adopted. Codex also ran an independent duplicate-check
+(8+ search terms) confirming no closer existing issue. Filed via
+`gh issue create --repo naomiaro/waveform-playlist`.
