@@ -21,18 +21,19 @@ gate references. Both phases' full narratives are in
 Upstream `RecordingOptions` issue: complete. Filed as
 [naomiaro/waveform-playlist#502](https://github.com/naomiaro/waveform-playlist/issues/502)
 (2026-06-23). Full narrative in `agents/archive/SESSION_HISTORY.md`.
+Tier 2 Phase C (new React `waveform-playlist`): investigated, concluded as
+a negative result — no working compensation formula found (Tone.js's
+transport layer forces `<latency-test>` onto a separate `AudioContext` and
+introduces a non-acoustic scheduling delay the component can't measure).
+Not merged to `main`; full investigation on branch
+`phase-c-waveform-playlist-react`, see that branch's
+`demos/waveform-playlist-react/NOTES.md`.
 
 ## Active next steps
 
-**Nothing blocking.** Next:
-1. Phase C, the new React `waveform-playlist`
-   (`@waveform-playlist/*` packages, not dawcore) — same read-the-installed-
-   source methodology, but two head starts this time: `src/alignment.js` is
-   stack-agnostic (pure functions over `AudioBuffer`s, no DOM/dawcore
-   dependency) and should be reusable as-is; and the mute/solo/volume/pan bug
-   ([naomiaro/waveform-playlist#501](https://github.com/naomiaro/waveform-playlist/issues/501))
-   likely reproduces there too via the shared `@waveform-playlist/engine`,
-   worth checking for early rather than rediscovering.
+**Nothing blocking.** Next: Phase D, the stretch goals (openDAW or WAM Online
+Studio, see `CLAUDE.md`'s "Demo targets" section) — explore only if complexity
+allows, not promised. No other open items.
 
 ## Structural decisions (durable)
 
