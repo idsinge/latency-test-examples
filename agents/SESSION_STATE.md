@@ -27,7 +27,9 @@ transport layer forces `<latency-test>` onto a separate `AudioContext` and
 introduces a non-acoustic scheduling delay the component can't measure).
 Not merged to `main`; full investigation on branch
 `phase-c-waveform-playlist-react`, see that branch's
-`demos/waveform-playlist-react/NOTES.md`.
+`demos/waveform-playlist-react/NOTES.md`. A related architectural finding
+filed as [naomiaro/waveform-playlist#503](https://github.com/naomiaro/waveform-playlist/issues/503)
+(2026-06-23).
 
 ## Active next steps
 
