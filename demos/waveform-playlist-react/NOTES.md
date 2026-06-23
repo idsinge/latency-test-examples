@@ -77,6 +77,15 @@ recording pipeline and `<latency-test>`. This React package's choice to build on
 Tone.js for transport/scheduling — not anything about AudioWorklet-based recording
 in general — is what breaks the pipeline-sharing pattern that made Phase B work.
 
+**Filed upstream:** [naomiaro/waveform-playlist#503](https://github.com/naomiaro/waveform-playlist/issues/503)
+(2026-06-23) — confirmed via source that `Tone.Context`'s constructor already
+supports `new Context({ context: nativeContext })` as a declared option, but
+`@waveform-playlist/playout`'s `configureGlobalContext()` never forwards one; the
+ponyfill-vs-native `instanceof`/`AudioWorkletNode` failure was independently
+reproduced standalone (no React, bare `@waveform-playlist/playout` only) in both
+Chrome and Firefox before filing. Asks for documentation of the limitation and
+consideration of forwarding a `context` option, not removal of the ponyfill.
+
 ## Round 1 — direct substitution makes alignment WORSE, not better
 
 Two full sessions (sampleRate 48000Hz), both `reliable: true`, 16/16 clicks matched,
