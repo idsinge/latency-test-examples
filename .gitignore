@@ -29,6 +29,7 @@ _site/
 # OS / editor
 .DS_Store
 npm-debug.log*
+.vscode/
 
 # Claude Code agent instruction files inside example apps (not part of any docs mirror)
 examples/*/AGENTS.md

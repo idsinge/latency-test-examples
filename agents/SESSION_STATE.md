@@ -30,12 +30,22 @@ Not merged to `main`; full investigation on branch
 `demos/waveform-playlist-react/NOTES.md`. A related architectural finding
 filed as [naomiaro/waveform-playlist#503](https://github.com/naomiaro/waveform-playlist/issues/503)
 (2026-06-23).
+Tier 2 Phase D (WAM Studio): scoped and planned 2026-06-24. Fork at
+https://github.com/fan-droide/wam-studio, branch `feature/latency-test`,
+local clone `/Users/jose/Desktop/wam-studio`. Full implementation plan in
+`demos/wam-studio/NOTES.md`. Implementation not started — next session
+begins there.
 
 ## Active next steps
 
-**Nothing blocking.** Next: Phase D, the stretch goals (openDAW or WAM Online
-Studio, see `CLAUDE.md`'s "Demo targets" section) — explore only if complexity
-allows, not promised. No other open items.
+**Implement Phase D.** Read `demos/wam-studio/NOTES.md` first — the full
+step-by-step plan is there, including exact code changes. In brief:
+1. `cd /Users/jose/Desktop/wam-studio/public && npm install` (add `@adasp/latency-test@1.2.0` to package.json first)
+2. Modify `src/Controllers/LatencyController.ts` per NOTES.md
+3. Delete `src/Audio/LatencyProcessor.js`
+4. `npm start`, test per checklist in NOTES.md
+5. Codex sign-off, then push to `fan-droide/wam-studio feature/latency-test`
+6. Add Phase D pointer to this repo's CLAUDE.md + README
 
 ## Structural decisions (durable)
 
