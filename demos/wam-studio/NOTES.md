@@ -326,13 +326,17 @@ a residual equal to `outputLatency` in the recorded offset. Our integration uses
 `event.detail.mean` (full round-trip) directly, eliminating that residual — a correctness
 improvement that the sample-domain proof would confirm with proper headphone hardware.
 
-## Deployment (deferred)
+## Deployment
 
-Confirm working locally first. WAM Studio needs COOP/COEP headers for
-SharedArrayBuffer — already set in `webpack.config.js` for dev. For a
-publicly accessible demo, options to explore:
-- Vercel or Netlify with a custom headers config file
-- Self-hosted with the existing `public/server.js` Express server
+**Live:** https://charming-paletas-c95a3f.netlify.app (Netlify, deployed 2026-06-26)
+
+Hosted on Netlify free tier, configured via `netlify.toml` at the repo root:
+- Build: `cd public && npm ci && npm run build` → `public/dist/`
+- Headers: `COOP: same-origin` and `COEP: require-corp` on all routes;
+  `CORP: cross-origin` on `/shareable/*` (mirrors the Express server behaviour)
+- Auto-deploys on every push to `main`
+
+`crossOriginIsolated === true` confirmed in production (headers verified via `curl`).
 
 ## Path to upstream PR
 
