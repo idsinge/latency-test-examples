@@ -9,7 +9,7 @@
 Integrate `<latency-test>` (`@adasp/latency-test`) into WAM Studio
 (https://github.com/Brotherta/wam-studio) to **replace** its existing
 latency calibration tool with one based on MLS/cross-correlation. The
-working fork serves as a showcase for a future PR to Brotherta/wam-studio.
+working fork serves as the showcase for [Brotherta/wam-studio#86](https://github.com/Brotherta/wam-studio/pull/86).
 
 ## Where the code lives
 
@@ -338,12 +338,12 @@ Hosted on Netlify free tier, configured via `netlify.toml` at the repo root:
 
 `crossOriginIsolated === true` confirmed in production (headers verified via `curl`).
 
-## Path to upstream PR
+## Upstream PR
 
-Once the fork demo works and findings are documented:
-1. Update `latency-test-examples` `CLAUDE.md` Phase D entry and
-   `README.md` demo table to point to `fan-droide/wam-studio`
-2. Open a PR to `Brotherta/wam-studio` proposing the replacement,
-   pointing to the fork as a working showcase
-3. Include Finding #1 (formula bug) in the PR description — it
-   strengthens the case for replacing the existing tool
+**[Brotherta/wam-studio#86](https://github.com/Brotherta/wam-studio/pull/86)** — opened 2026-06-26.
+
+Branch: `fan-droide:feature/latency-test` → `Brotherta:main`.
+Files in PR: `public/package.json`, `public/package-lock.json`,
+`public/src/Controllers/LatencyController.ts` (rewrite),
+`public/src/Audio/LatencyProcessor.js` (deleted).
+Fork README and `netlify.toml` kept fork-only — not in the upstream PR.
