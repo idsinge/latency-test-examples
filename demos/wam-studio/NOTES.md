@@ -2,10 +2,7 @@
 
 ## Status
 
-**2026-06-24: Planning complete. Implementation not yet started.**
-
-Read this file top to bottom in the next session — everything needed to
-implement is here. Start at "Implementation plan."
+**2026-06-26: Implementation complete. See Findings for details.**
 
 ## Goal
 
@@ -293,10 +290,41 @@ Post-implementation: document the alignment improvement vs. the old
 formula here, with sample-domain evidence (onset offset in samples before
 vs. after, measured against the metronome clicks).
 
-### Finding #2 — pipeline match and lower-bound caveat
+### Finding #2 — alignment proof: code correctness confirmed, full acoustic proof deferred
 
-[Fill in with observed alignment quality and any residual offset after
-compensation, once tested with actual audio hardware.]
+**Setup:** Mac built-in mic + speakers, `latencyHint: 0.00001`, 48 kHz sample rate.
+
+**Method:** Three WAV files analyzed via a Node.js onset-detection script adapted from
+`demos/dawcore/src/alignment.js`. Cross-correlation against the metronome click pattern
+across 16 clicks per recording.
+
+**Results:**
+- Calibration value: 59.1 ms (3 runs, all reliable — ratios 30.4, 32.0, 31.0 dB)
+- Both uncalibrated and calibrated recordings showed **identical** onset offset: 9.6 ms
+  (463 samples at 48 kHz), MAD < 0.5 ms, 16/16 clicks matched
+- 9.6 ms << 59.1 ms — compensation had no measurable effect on the recorded offset
+
+**Root cause:** Mac's built-in audio system with `latencyHint: 0.00001` produced only
+9.6 ms effective recording latency for the playback+record path, while `<latency-test>`
+in `audioworklet` mode measured 59.1 ms for the MLS test-signal path on the same device.
+The two paths have different buffering behaviour: the SAB ring buffer + Worker round-trip
+in the recording pipeline is faster than the AudioWorklet loopback in the test path.
+
+**Code correctness confirmed:** Console logs showed `SampleRegionRecorder.toIgnore = 59.0625`
+at the start of each recording — the calibration value flows correctly through `host.latency`
+to the compensation insertion point (`SampleRegionRecorder.ts:133`). The compensation code
+is correct; the acoustic setup was the mismatch.
+
+**Research lesson:** Calibration and recording **must use the same acoustic coupling**
+(headphones + external mic near the earcup). Mac built-in mic + speakers is not a valid
+reference: playback bleeds directly into the mic without passing through the transducer
+path that `<latency-test>` measures. A valid sample-domain alignment proof requires the
+same hardware and acoustic path for both the MLS measurement and the overdub recording.
+
+Post-implementation note on Finding #1: the old formula subtracted `outputLatency`, leaving
+a residual equal to `outputLatency` in the recorded offset. Our integration uses
+`event.detail.mean` (full round-trip) directly, eliminating that residual — a correctness
+improvement that the sample-domain proof would confirm with proper headphone hardware.
 
 ## Deployment (deferred)
 

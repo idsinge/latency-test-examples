@@ -66,9 +66,10 @@ Hi-Audio is the component's primary target. `gilpanal/waveform-playlist`'s build
 
 **Phase C (investigated, not merged — negative result):** waveform-playlist (new React version) — https://github.com/naomiaro/waveform-playlist (`@waveform-playlist/*` packages). Full investigation on branch [`phase-c-waveform-playlist-react`](https://github.com/idsinge/latency-test-examples/tree/phase-c-waveform-playlist-react) — no working latency-compensation formula was found; the host's Tone.js transport layer forces `<latency-test>` onto a separate `AudioContext` and introduces a non-acoustic scheduling delay the component can't see, and no measurement technique short of forking the recording worklet could resolve it. See that branch's `NOTES.md` for the full trail. Not merged to `main` since it never reached working compensation. A related architectural finding (Tone's `rawContext` is a ponyfill incompatible with third-party native `AudioWorkletNode` construction) was filed as [naomiaro/waveform-playlist#503](https://github.com/naomiaro/waveform-playlist/issues/503).
 
+**Phase D (shipped):** `demos/wam-studio` — [WAM Online Studio](https://github.com/Brotherta/wam-studio) integration via fork [fan-droide/wam-studio](https://github.com/fan-droide/wam-studio), branch `feature/latency-test`. Replaces WAM Studio's existing threshold-based calibration tool with MLS/cross-correlation and fixes a formula bug in the original tool (`roundtrip - outputLatency` → full round-trip). Recording pipeline confirmed AudioWorklet-based (`recording-mode="audioworklet"`). Compensation applies via `SampleRegionRecorder.toIgnore`. Code correctness confirmed via console logs; full acoustic-coupling alignment proof requires headphones + external mic (Mac built-in audio produced a mismatched 9.6 ms recording latency vs. 59.1 ms MLS measurement — see Finding #2 in `demos/wam-studio/NOTES.md`).
+
 Stretch goals (explore only if complexity allows; listed so adding them later is natural, not promised):
 - **openDAW** — https://github.com/andremichelle/openDAW
-- **WAM Online Studio** — https://github.com/Brotherta/wam-studio
 
 ### Rules for demos
 

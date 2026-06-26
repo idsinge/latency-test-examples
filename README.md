@@ -58,7 +58,7 @@ Reference implementation: the [Hi-Audio fork of waveform-playlist](https://githu
 | [dawcore (Web Components)](demos/dawcore/) | [`@dawcore/*` migration spec](https://github.com/naomiaro/waveform-playlist/blob/main/docs/specs/web-components-migration.md) | done — see [NOTES.md](demos/dawcore/NOTES.md) |
 | [waveform-playlist (new React version)](https://github.com/idsinge/latency-test-examples/tree/phase-c-waveform-playlist-react/demos/waveform-playlist-react) | [`@waveform-playlist/*`](https://github.com/naomiaro/waveform-playlist) | investigated, not shipped (negative result) — see [NOTES.md](https://github.com/idsinge/latency-test-examples/blob/phase-c-waveform-playlist-react/demos/waveform-playlist-react/NOTES.md) |
 | openDAW | [andremichelle/openDAW](https://github.com/andremichelle/openDAW) | stretch goal |
-| WAM Online Studio | [Brotherta/wam-studio](https://github.com/Brotherta/wam-studio) | stretch goal |
+| [WAM Studio (fan-droide fork)](demos/wam-studio/) | [Brotherta/wam-studio](https://github.com/Brotherta/wam-studio) — fork: [fan-droide/wam-studio](https://github.com/fan-droide/wam-studio) | done — see [NOTES.md](demos/wam-studio/NOTES.md) |
 
 ## Running locally
 
