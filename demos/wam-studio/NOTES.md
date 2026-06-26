@@ -83,7 +83,7 @@ full WAM SDK chain. Same limitation as WAM Studio's own existing tool
 | Compensation value | `event.detail.mean` (full round-trip) | See Finding #1 — old `roundtrip - outputLatency` formula is wrong. |
 | Reliability gate | On `latency-complete`: only commit if `!detail.aborted && detail.results.every(r => r.reliable)` — `latency-complete` has no top-level `reliable` field | Don't overwrite a good calibration with noisy readings; leave prior value untouched if any run was unreliable |
 | User stop | `el.stop()` → stop stream tracks → remove element | `stop()` fires `latency-complete` with `{ aborted: true }`. Same cleanup handler covers both abort and natural completion. |
-| Version pin | `"@adasp/latency-test": "1.2.0"` (exact, no `^`) | Research record — exact pin documents what was tested. |
+| Version pin | `"@adasp/latency-test": "1.2.1"` (exact, no `^`) | Research record — exact pin documents what was tested. |
 | TypeScript typing | Package's shipped `LatencyTestElement` type | Avoid `any`; package exports `LatencyTestElement`, `LatencyResultDetail`, etc. |
 | Race-safe init | Set `_calibrating = true` before first `await` | Fixes existing bug in WAM Studio's `startCalibrate()` — stop during permission prompt was skipped. |
 
@@ -95,7 +95,7 @@ All changes in `/Users/jose/Desktop/wam-studio/public/`.
 
 Add to `package.json` `dependencies`:
 ```json
-"@adasp/latency-test": "1.2.0"
+"@adasp/latency-test": "1.2.1"
 ```
 Run `npm install`.
 
